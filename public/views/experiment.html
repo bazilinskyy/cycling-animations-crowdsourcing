@@ -75,6 +75,14 @@
       return a;
   }
 
+  var post_trial_gap_last = -1;
+
+  var post_trial_gap = function() {
+    post_trial = Math.floor( Math.random() * 2300 ) + 1000;
+    post_trial_gap_last = post_trial;
+    return post_trial;
+  }
+
   var image_prefix = 'img/stimuli/';
 
   // create array of video_ids, remove 0th id, shuffle
@@ -94,7 +102,7 @@
     /* define instructions block */
   var instructions_block = {
     type: 'html-keyboard-response',
-    stimulus: '<p>The purpose of this experiment is to determine whether you choose to brake or accelerate when approaching an intersection. In the following images, you will see an automated car turning.</p><p>You will view XXX images. Each image will be on a separate page. For each image, you will need to press \'D\' to indicate that you want to brake or \'A\' to indicate that you want to accelerate. After pressing the key the new image will be shown. Press either of the keys as quickly as possible. The window of your browser should be at least 1300px wide and 800px tall. Press \'C\' to proceed to the first image.</p>',
+    stimulus: '<p>In the following images, you will see an automated car turning. You woule need to determine whether you choose to brake or accelerate when approaching an intersection.</p><p>You will view XXX images. Each image will be on a separate page. For each image, you will need to press \'D\' to indicate that you want to brake or \'A\' to indicate that you want to accelerate. After pressing the key the new image will be shown. Press either of the keys as quickly as possible. The window of your browser should be at least 1300px wide and 800px tall. Press \'C\' to proceed to the first image.</p>',
     choices: ['C'],
     on_finish: function(data){
       jsPsych.data.addDataToLastTrial({worker_code: finish_code});
@@ -118,10 +126,12 @@
     // stimulus_height: 720,
     timeline: test_stimuli_1,
     choices: ['d', 'a'],
+    timing_post_trial: post_trial_gap,
     prompt: "<p>Press \'D'\ to brake or \'A'\ to accelerate.</p>",
     on_finish: function(){
         var progress_value = jsPsych.getProgressBarCompleted() + 1/images_participant;
         jsPsych.setProgressBar(progress_value); // set progress bar to 85% full.
+        jsPsych.data.addDataToLastTrial({delay_after: post_trial_gap_last});
     }
   };
 
