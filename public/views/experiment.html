@@ -116,7 +116,7 @@
     type: 'image-keyboard-response',
     timeline: test_stimuli_1,
     choices: ['d', 'a'],
-    prompt: "<p>Press \'D'\ to brake or \'A'\ to accelerate.</p>"
+    prompt: "<p>Press \'D'\ to brake or \'A'\ to accelerate.</p>",
     on_finish: function(){
         var progress_value = jsPsych.getProgressBarCompleted() + 1/images_participant;
         jsPsych.setProgressBar(progress_value); // set progress bar to 85% full.
