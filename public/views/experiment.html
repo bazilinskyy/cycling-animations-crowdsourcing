@@ -126,7 +126,7 @@
     // stimulus_height: 720,
     timeline: test_stimuli_1,
     choices: ['d', 'a'],
-    timing_post_trial: post_trial_gap,
+    post_trial_gap: post_trial_gap,
     prompt: "<p>Press \'D'\ to brake or \'A'\ to accelerate.</p>",
     on_finish: function(){
         var progress_value = jsPsych.getProgressBarCompleted() + 1/images_participant;
