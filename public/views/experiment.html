@@ -128,10 +128,11 @@
     choices: ['d', 'a'],
     post_trial_gap: post_trial_gap,
     prompt: "<p>Press \'D'\ to brake or \'A'\ to accelerate.</p>",
-    on_finish: function(){
+    on_finish: function(data){
         var progress_value = jsPsych.getProgressBarCompleted() + 1/images_participant;
         jsPsych.setProgressBar(progress_value); // set progress bar to 85% full.
         jsPsych.data.addDataToLastTrial({delay_after: post_trial_gap_last});
+        console.log(post_trial_gap_last);
     }
   };
 
