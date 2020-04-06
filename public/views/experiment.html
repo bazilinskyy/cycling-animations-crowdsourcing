@@ -102,7 +102,7 @@
     /* define instructions block */
   var instructions_block = {
     type: 'html-keyboard-response',
-    stimulus: '<p>In the following images, you will see an automated car turning. You woule need to determine whether you choose to brake or accelerate when approaching an intersection.</p><p>You will view XXX images. Each image will be on a separate page. For each image, you will need to press \'D\' to indicate that you want to brake or \'A\' to indicate that you want to accelerate. After pressing the key the new image will be shown. Press either of the keys as quickly as possible. The window of your browser should be at least 1300px wide and 800px tall. Press \'C\' to proceed to the first image.</p>',
+    stimulus: '<p>In the following images, you will see an automated car turning. You woule need to determine whether you choose to slow down or continue cycling when approaching an intersection.</p><p>You will view XXX images. Each image will be on a separate page. For each image, you will need to press \'D\' to indicate that you want to slow down or \'A\' to indicate that you want to continue cycling. After pressing the key the new image will be shown. Press either of the keys as quickly as possible. The window of your browser should be at least 1300px wide and 800px tall. Press \'C\' to proceed to the first image.</p>',
     choices: ['C'],
     on_finish: function(data){
       jsPsych.data.addDataToLastTrial({worker_code: finish_code});
