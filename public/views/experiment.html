@@ -113,7 +113,7 @@
   /* define instructions block */
   var instructions_block = {
     type: 'html-keyboard-response',
-    stimulus: '<p>In the following images, you will see a traffic situation from the perspective of a cyclist. In each image, a car is approaching you. Some of the cars are self-driving. Your task is to indicate what you, as a cyclist, would do: Brake (press \'B\') or Continue Pedaling (press \'P\'). You will view 90 images. Press the \'B\' or \'P\' key as quickly and accurately as possible. Press \'C\' to first watch a video that illustrates the speed of the car.</p>',
+    stimulus: '<p>In the following images, you will see a traffic situation from the perspective of a cyclist. In each image, a car is approaching you. Some of the cars are self-driving. Your task is to indicate what you, as a cyclist, would do: Brake (press \'B\') or Continue Pedaling (press \'P\'). You will view 90 images. Press the \'B\' or \'P\' key as quickly and accurately as possible. The window of your browser should be at least 1300px wide and 800px tall. Press \'C\' to first watch a video that illustrates the speed of the car.</p>',
     choices: ['C'],
     on_finish: function(data){
       jsPsych.data.addDataToLastTrial({worker_code: finish_code});
