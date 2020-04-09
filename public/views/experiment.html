@@ -126,45 +126,66 @@
     post_trial_gap: post_trial_gap
   };
 
-  /* define instructions block */
+  /* define between block 1 */
   var between_block_1 = {
     type: 'html-keyboard-response',
     stimulus: '<p>You have now viewed 30 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
     choices: ['C']
   };
 
-  /* block with video with example */
-  var video_block_2 = {
-    type: 'video-keyboard-response',
-    trial_ends_after_video: false,
-    sources: ['videos/conflictA_03_neutraal.mp4'],
-    autoplay: true,
-    controls: true,
-    choices: ['C'],
-    post_trial_gap: post_trial_gap,
-    response_ends_trial: true,
-    // trial_duration: 100000
+  /* define between block 1 */
+  var between_block_1 = {
+    type: 'html-keyboard-response',
+    stimulus: '<p>You have now viewed 30 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
+    choices: ['C']
   };
 
-  /* define instructions block */
+  /* define between block 1 */
+  var video_block_2 = {
+    type: 'html-keyboard-response',
+    stimulus: '<video id=\'jspsych-video-player\' src=\'videos/conflictA_03_neutraal.mp4\'\'></video>',
+    choices: ['C']
+  };
+
+  // /* block with video with example */
+  // var video_block_2 = {
+  //   type: 'video-keyboard-response',
+  //   trial_ends_after_video: false,
+  //   sources: ['videos/conflictA_03_neutraal.mp4'],
+  //   autoplay: true,
+  //   controls: true,
+  //   choices: ['C'],
+  //   post_trial_gap: post_trial_gap,
+  //   response_ends_trial: true,
+  //   // trial_duration: 100000
+  // };
+
+  /* define between block 2 */
   var between_block_2 = {
     type: 'html-keyboard-response',
     stimulus: '<p>You have now viewed 60 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
     choices: ['C']
   };
 
-  /* block with video with example */
+  /* define between block 1 */
   var video_block_3 = {
-    type: 'video-keyboard-response',
-    trial_ends_after_video: false,
-    sources: ['videos/conflictA_03_neutraal.mp4'],
-    autoplay: true,
-    controls: true,
-    choices: ['C'],
-    post_trial_gap: post_trial_gap,
-    response_ends_trial: true,
-    // trial_duration: 100000
+    type: 'html-keyboard-response',
+    stimulus: '<video id=\'jspsych-video-player\' src=\'videos/conflictA_03_neutraal.mp4\'\'></video>',
+    choices: ['C']
   };
+
+  // /* block with video with example */
+  // var video_block_3 = {
+  //   type: 'video-keyboard-response',
+  //   trial_ends_after_video: false,
+  //   sources: ['videos/conflictA_03_neutraal.mp4'],
+  //   autoplay: true,
+  //   controls: true,
+  //   choices: ['C'],
+  //   post_trial_gap: post_trial_gap,
+  //   response_ends_trial: true,
+  //   // trial_duration: 100000
+  // };
 
   /* dynamically build a list of images for block 1 */
   for (var i = 0; i < images_participant/3; i++) {
