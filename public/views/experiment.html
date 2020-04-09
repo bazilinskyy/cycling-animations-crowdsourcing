@@ -126,23 +126,24 @@
   //   post_trial_gap: post_trial_gap
   // };
 
-    /* define between block 1 */
+  /* define between block 1 */
   var video_block_1 = {
     type: 'html-keyboard-response',
-    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video><p>Press \'C\' to continue to the first image after watching the video.</p>',
+    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video>',
+    choices: jsPsych.NO_KEYS,
+    post_trial_gap: post_trial_gap
+  };
+
+  /* define between block 1b */
+  var between_block_1 = {
+    type: 'html-keyboard-response',
+    stimulus: '<p>Press \'C\' to continue to the first image.</p>',
     choices: ['C'],
     post_trial_gap: post_trial_gap
   };
 
   /* define between block 1 */
-  var between_block_1 = {
-    type: 'html-keyboard-response',
-    stimulus: '<p>You have now viewed 30 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
-    choices: ['C']
-  };
-
-  /* define between block 1 */
-  var between_block_1 = {
+  var between_block_2 = {
     type: 'html-keyboard-response',
     stimulus: '<p>You have now viewed 30 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
     choices: ['C']
@@ -151,26 +152,19 @@
   /* define between block 1 */
   var video_block_2 = {
     type: 'html-keyboard-response',
-    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video><p>Press \'C\' to continue to the next image after watching the video.</p>',
-    choices: ['C'],
-    post_trial_gap: post_trial_gap
+    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video>',
+    choices: jsPsych.NO_KEYS,
   };
 
-  // /* block with video with example */
-  // var video_block_2 = {
-  //   type: 'video-keyboard-response',
-  //   trial_ends_after_video: false,
-  //   sources: ['videos/conflictA_03_neutraal.mp4'],
-  //   autoplay: true,
-  //   controls: true,
-  //   choices: ['C'],
-  //   post_trial_gap: post_trial_gap,
-  //   response_ends_trial: true,
-  //   // trial_duration: 100000
-  // };
+  /* define between block 1 */
+  var between_block_2b = {
+    type: 'html-keyboard-response',
+    stimulus: '<p>Press \'C\' to continue to the next image.</p>',
+    choices: ['C']
+  };
 
   /* define between block 2 */
-  var between_block_2 = {
+  var between_block_3 = {
     type: 'html-keyboard-response',
     stimulus: '<p>You have now viewed 60 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
     choices: ['C']
@@ -179,23 +173,17 @@
   /* define between block 1 */
   var video_block_3 = {
     type: 'html-keyboard-response',
-    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video><p>Press \'C\' to continue to the next image after watching the video.</p>',
+    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video>',
+    choices: jsPsych.NO_KEYS,
+  };
+
+  /* define between block 1b */
+  var between_block_3b = {
+    type: 'html-keyboard-response',
+    stimulus: '<p>Press \'C\' to continue to the next image.</p>',
     choices: ['C'],
     post_trial_gap: post_trial_gap
   };
-
-  // /* block with video with example */
-  // var video_block_3 = {
-  //   type: 'video-keyboard-response',
-  //   trial_ends_after_video: false,
-  //   sources: ['videos/conflictA_03_neutraal.mp4'],
-  //   autoplay: true,
-  //   controls: true,
-  //   choices: ['C'],
-  //   post_trial_gap: post_trial_gap,
-  //   response_ends_trial: true,
-  //   // trial_duration: 100000
-  // };
 
   /* dynamically build a list of images for block 1 */
   for (var i = 0; i < images_participant/3; i++) {
@@ -293,12 +281,15 @@
   var timeline = [];
   timeline.push(instructions_block);
   timeline.push(video_block_1);
-  timeline.push(image_block_1);
   timeline.push(between_block_1);
-  timeline.push(video_block_2);
-  timeline.push(image_block_2);
+  timeline.push(image_block_1);
   timeline.push(between_block_2);
+  timeline.push(video_block_2);
+  timeline.push(between_block_2b);
+  timeline.push(image_block_2);
+  timeline.push(between_block_3);
   timeline.push(video_block_3);
+  timeline.push(between_block_3b);
   timeline.push(image_block_3);
   timeline.push(save_data_block);
 
