@@ -152,12 +152,20 @@
     choices: ['C']
   };
 
-  /* define between block 1 */
+  // /* define between block 1 */
+  // var video_block_2 = {
+  //   type: 'html-keyboard-response',
+  //   stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'' + video_files[video_files_ids[1]] + '\'></video>',
+  //   choices: jsPsych.NO_KEYS,
+  //   trial_duration: 17000
+  // };
+
+    /* block with video with example */
   var video_block_2 = {
-    type: 'html-keyboard-response',
-    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'' + video_files[video_files_ids[1]] + '\'></video>',
-    choices: jsPsych.NO_KEYS,
-    trial_duration: 17000
+    type: 'video-keyboard-response',
+    sources: [video_files[video_files_ids[1]]],
+    autoplay: true,
+    choices: jsPsych.NO_KEYS
   };
 
   /* define between block 1 */
@@ -174,12 +182,20 @@
     choices: ['C']
   };
 
-  /* define between block 1 */
+  // /* define between block 1 */
+  // var video_block_3 = {
+  //   type: 'html-keyboard-response',
+  //   stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'' + video_files[video_files_ids[2]] + '\'></video>',
+  //   choices: jsPsych.NO_KEYS,
+  //   trial_duration: 17000
+  // };
+
+    /* block with video with example */
   var video_block_3 = {
-    type: 'html-keyboard-response',
-    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'' + video_files[video_files_ids[2]] + '\'></video>',
-    choices: jsPsych.NO_KEYS,
-    trial_duration: 17000
+    type: 'video-keyboard-response',
+    sources: [video_files[video_files_ids[2]]],
+    autoplay: true,
+    choices: jsPsych.NO_KEYS
   };
 
   /* define between block 1b */
