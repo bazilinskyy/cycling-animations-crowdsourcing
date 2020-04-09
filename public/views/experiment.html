@@ -4,7 +4,8 @@
     <title>Images of cycling</title>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
     <script src='jsPsych/jspsych.js'></script>
-    <script src='jsPsych/plugins/jspsych-html-keyboard-response.js'></script>
+    <!-- <script src='jsPsych/plugins/jspsych-html-keyboard-response.js'></script> -->
+    <script src='jsPsych/plugins/jspsych-video-keyboard-response.js'></script>
     <script src='jsPsych/plugins/jspsych-image-keyboard-response.js'></script>
     <script src='jsPsych/plugins/jspsych-call-function.js'></script>
     <link href='jsPsych/css/jspsych.css' rel='stylesheet' type='text/css'></link>
@@ -101,12 +102,16 @@
 
     /* define instructions block */
   var instructions_block = {
-    type: 'html-keyboard-response',
-    stimulus: '<p>In the following images, you will see an automated car turning. You woule need to determine whether you choose to slow down or continue cycling when approaching an intersection.</p><p>You will view XXX images. Each image will be on a separate page. For each image, you will need to press \'D\' to indicate that you want to slow down or \'A\' to indicate that you want to continue cycling. After pressing the key the new image will be shown. Press either of the keys as quickly as possible. The window of your browser should be at least 1300px wide and 800px tall. Press \'C\' to proceed to the first image.</p>',
+    // type: 'html-keyboard-response',
+    type: 'video-keyboard-response',
+    stimulus: 'videos/conflictA_03_neutraal.mp4',
+    prompt: '<p>In the following images, you will see an automated car turning. You would need to determine whether you choose to slow down or continue cycling when approaching an intersection.</p><p>You will view XXX images. Each image will be on a separate page. For each image, you will need to press \'S\' to indicate that you want to slow down or \'G\' to indicate that you want to continue cycling. After pressing the key the new image will be shown. Press either of the keys as quickly as possible. The window of your browser should be at least 1300px wide and 800px tall. Press \'C\' to proceed to the first image.</p>',
+    autoplay: true,
+    controls: true,
     choices: ['C'],
+    response_ends_trial: true,
     on_finish: function(data){
       jsPsych.data.addDataToLastTrial({worker_code: finish_code});
-      // jsPsych.data.addDataToLastTrial({image_id: image_ids_slice});
     }
   };
 
@@ -125,9 +130,9 @@
     // maintain_aspect_ration: true,
     // stimulus_height: 720,
     timeline: test_stimuli_1,
-    choices: ['d', 'a'],
+    choices: ['s', 'g'],
     post_trial_gap: post_trial_gap,
-    prompt: "<p>Press \'D'\ to brake or \'A'\ to accelerate.</p>",
+    prompt: "<p>Press \'S'\ to slow down or \'G'\ to continue cycling.</p>",
     on_finish: function(data){
         var progress_value = jsPsych.getProgressBarCompleted() + 1/images_participant;
         jsPsych.setProgressBar(progress_value); // set progress bar to 85% full.
