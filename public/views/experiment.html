@@ -92,6 +92,9 @@
   var images_n = 90; // number of videos + 1
   var images_participant = 9; // number of videos + 1
   var image_ids = [];
+  var video_files = ['videos/conflictA_03_neutraal.mp4', 'videos/conflictA_03_GO.mp4', 'videos/conflictA_03_google.mp4'];
+  var video_files_ids = [0, 1, 2];
+  video_files_ids = shuffle(video_files_ids);
   for (var i = 1; i <= images_n; i++) {
       image_ids.push(i);
   }
@@ -116,20 +119,10 @@
     }
   };
 
-  /* block with video with example */
-  // var video_block_1 = {
-  //   type: 'video-keyboard-response',
-  //   sources: ['videos/conflictA_03_neutraal.mp4'],
-  //   autoplay: true,
-  //   choices: jsPsych.NO_KEYS,
-  //   trial_ends_after_video: true,
-  //   post_trial_gap: post_trial_gap
-  // };
-
   /* define between block 1 */
   var video_block_1 = {
     type: 'html-keyboard-response',
-    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video>',
+    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'' + video_files[0] + '\'></video>',
     choices: jsPsych.NO_KEYS,
     post_trial_gap: post_trial_gap
   };
@@ -152,7 +145,7 @@
   /* define between block 1 */
   var video_block_2 = {
     type: 'html-keyboard-response',
-    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video>',
+    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'' + video_files[1] + '\'></video>',
     choices: jsPsych.NO_KEYS,
   };
 
@@ -173,7 +166,7 @@
   /* define between block 1 */
   var video_block_3 = {
     type: 'html-keyboard-response',
-    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video>',
+    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'' + video_files[2] + '\'></video>',
     choices: jsPsych.NO_KEYS,
   };
 
