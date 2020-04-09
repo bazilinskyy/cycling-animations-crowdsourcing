@@ -109,7 +109,7 @@
   /* define instructions block */
   var instructions_block = {
     type: 'html-keyboard-response',
-    simulus: '<p>In the following images, you will see a traffic situation from the perspective of a cyclist. In each image, a car is approaching you on a collision trajectory. Your task is to indicate what you, as a cyclist, would Brake (press \'B\') or Continue Pedaling (press \'P\'). You will view 90 images. Press the \'B\' or \'P\' key as quickly and accurately as possible. Press \'C\' to first watch a video illustration of the traffic situation. After the video you will view the first image.</p>',
+    stimulus: '<p>In the following images, you will see a traffic situation from the perspective of a cyclist. In each image, a car is approaching you on a collision trajectory. Your task is to indicate what you, as a cyclist, would Brake (press \'B\') or Continue Pedaling (press \'P\'). You will view 90 images. Press the \'B\' or \'P\' key as quickly and accurately as possible. Press \'C\' to first watch a video illustration of the traffic situation. After the video you will view the first image.</p>',
     choices: ['C'],
     on_finish: function(data){
       jsPsych.data.addDataToLastTrial({worker_code: finish_code});
