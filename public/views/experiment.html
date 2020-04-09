@@ -117,12 +117,20 @@
   };
 
   /* block with video with example */
+  // var video_block_1 = {
+  //   type: 'video-keyboard-response',
+  //   sources: ['videos/conflictA_03_neutraal.mp4'],
+  //   autoplay: true,
+  //   choices: jsPsych.NO_KEYS,
+  //   trial_ends_after_video: true,
+  //   post_trial_gap: post_trial_gap
+  // };
+
+    /* define between block 1 */
   var video_block_1 = {
-    type: 'video-keyboard-response',
-    sources: ['videos/conflictA_03_neutraal.mp4'],
-    autoplay: true,
-    choices: jsPsych.NO_KEYS,
-    trial_ends_after_video: true,
+    type: 'html-keyboard-response',
+    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video><p>Press \'C\' to continue to the first image after watching the video.</p>',
+    choices: ['C'],
     post_trial_gap: post_trial_gap
   };
 
@@ -143,7 +151,7 @@
   /* define between block 1 */
   var video_block_2 = {
     type: 'html-keyboard-response',
-    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video>',
+    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video><p>Press \'C\' to continue to the next image after watching the video.</p>',
     choices: ['C'],
     post_trial_gap: post_trial_gap
   };
@@ -171,7 +179,7 @@
   /* define between block 1 */
   var video_block_3 = {
     type: 'html-keyboard-response',
-    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video>',
+    stimulus: '<video id=\'jspsych-video-player\' autoplay src=\'videos/conflictA_03_neutraal.mp4\'\'></video><p>Press \'C\' to continue to the next image after watching the video.</p>',
     choices: ['C'],
     post_trial_gap: post_trial_gap
   };
