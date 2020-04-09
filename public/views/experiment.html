@@ -90,7 +90,7 @@
 
   // create array of video_ids, remove 0th id, shuffle
   var images_n = 90; // number of videos + 1
-  var images_participant = 90; // number of videos + 1
+  var images_participant = 9; // number of videos + 1
   var image_ids = [];
   for (var i = 1; i <= images_n; i++) {
       image_ids.push(i);
@@ -109,7 +109,7 @@
   /* define instructions block */
   var instructions_block = {
     type: 'html-keyboard-response',
-    stimulus: '<p>In the following images, you will see a traffic situation from the perspective of a cyclist. In each image, a car is approaching you on a collision trajectory. Your task is to indicate what you, as a cyclist, would Brake (press \'B\') or Continue Pedaling (press \'P\'). You will view 90 images. Press the \'B\' or \'P\' key as quickly and accurately as possible. Press \'C\' to first watch a video illustration of the traffic situation. After the video you will view the first image.</p>',
+    stimulus: '<p>In the following images, you will see a traffic situation from the perspective of a cyclist. In each image, a car is approaching you on a collision trajectory. Your task is to indicate what you, as a cyclist, would Brake (press \'B\') or Continue Pedaling (press \'P\'). You will view 90 images. Press the \'B\' or \'P\' key as quickly and accurately as possible. Press \'C\' to first watch a video illustration of the traffic situation..</p>',
     choices: ['C'],
     on_finish: function(data){
       jsPsych.data.addDataToLastTrial({worker_code: finish_code});
@@ -125,6 +125,13 @@
     post_trial_gap: post_trial_gap
   };
 
+  /* define instructions block */
+  var between_block_1 = {
+    type: 'html-keyboard-response',
+    stimulus: '<p>You have now viewed 30 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
+    choices: ['C']
+  };
+
   /* block with video with example */
   var video_block_2 = {
     type: 'video-keyboard-response',
@@ -132,8 +139,14 @@
     autoplay: true,
     controls: true,
     choices: ['C'],
-    prompt: '<p>You have now viewed 30 images out of 90. Watch the video with the example again and press \'C\' to continue to the next image.</p>',
     post_trial_gap: post_trial_gap
+  };
+
+  /* define instructions block */
+  var between_block_2 = {
+    type: 'html-keyboard-response',
+    stimulus: '<p>You have now viewed 60 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
+    choices: ['C']
   };
 
   /* block with video with example */
@@ -143,7 +156,6 @@
     autoplay: true,
     controls: true,
     choices: ['C'],
-    prompt: '<p>You have now viewed 60 images out of 90. Watch the video with the example again and press \'C\' to continue to the next image.</p>',
     post_trial_gap: post_trial_gap
   };
 
@@ -240,8 +252,10 @@
   timeline.push(instructions_block);
   timeline.push(video_block_1);
   timeline.push(image_block_1);
+  timeline.push(between_block_1);
   timeline.push(video_block_2);
   timeline.push(image_block_2);
+  timeline.push(between_block_2);
   timeline.push(video_block_3);
   timeline.push(image_block_3);
   timeline.push(save_data_block);
