@@ -105,7 +105,7 @@
     // type: 'html-keyboard-response',
     type: 'video-keyboard-response',
     sources: ['videos/conflictA_03_neutraal.mp4'],
-    prompt: '<p>In the following images, you will see an automated car turning. You would need to determine whether you choose to slow down or continue cycling when approaching an intersection.</p><p>You will view XXX images. Each image will be on a separate page. For each image, you will need to press \'S\' to indicate that you want to slow down or \'G\' to indicate that you want to continue cycling. After pressing the key the new image will be shown. Press either of the keys as quickly as possible. The window of your browser should be at least 1300px wide and 800px tall. Press \'C\' to proceed to the first image.</p>',
+    prompt: '<p>The video above shows an example of an automated car turning. You can play the video multiple times by hovering the mouse over it to see the controls. In the following images, you will also see an automated car turning.  You would need to determine whether you choose to slow down or continue cycling when approaching an intersection.</p><p>You will view 90 images. Each image will be on a separate page. For each image, you will need to press \'S\' to indicate that you want to slow down or \'G\' to indicate that you want to continue cycling. After pressing the key the new image will be shown. Press either of the keys as quickly as possible. The window of your browser should be at least 1300px wide and 800px tall. Press \'C\' to proceed to the first image.</p>',
     autoplay: true,
     controls: true,
     choices: ['C'],
@@ -133,7 +133,7 @@
     timeline: test_stimuli_1,
     choices: ['s', 'g'],
     post_trial_gap: post_trial_gap,
-    prompt: "<p>Press \'S'\ to slow down or \'G'\ to continue cycling.</p>",
+    prompt: "<p>Image that you are the cyclist. Press \'S\' if you would Stop. Press \'G\' if you would Go. Press as quickly and accurately as you can.</p>",
     on_finish: function(data){
         var progress_value = jsPsych.getProgressBarCompleted() + 1/images_participant;
         jsPsych.setProgressBar(progress_value); // set progress bar to 85% full.
