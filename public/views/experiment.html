@@ -422,7 +422,7 @@ for (var i = 1; i < n_images * n_images_repeat / n_images_break; i++) {
           sources: video_files[video_files_ids[i]],
           autoplay: true,
           choices: jsPsych.NO_KEYS,
-          on_finish: function(data){
+          on_load: function(data){
               console.log('video_block shown');
           }
       });
@@ -451,6 +451,8 @@ var save_data_block = {
   var between_blocks_count = 0;  // counter of shown between blocks
   timeline.push(instructions_block);
   timeline.push(video_blocks[video_blocks_count]);
+  // save data
+  timeline.push(save_data_block);
   video_blocks_count++;  // increase counter of videos shown
   for (var i = 0; i <= n_images_per_participant * n_images_repeat; i++) {
     // check if the last image was reached
