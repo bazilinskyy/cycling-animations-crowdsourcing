@@ -29,7 +29,7 @@ var n_images_per_participant = 36; // number of images
 var n_images_repeat = 3;  // number of repeats of each condition
 var n_images_break = 30; // number of images between each break
 var n_images_no_break_after = 100;  // do not show breaks after this image
-var video_files = ['videos/conflictD_01_GO.mp4', 'videos/conflictD_01_google.mp4', 'videos/conflictD_01_neutraal.mp4', 'videos/conflictE_02_GO.mp4', 'videos/conflictE_02_google.mp4', 'videos/conflictE_02_neutraal.mp4']
+var video_files = ['videos/conflictD_01_GO.mp4', 'videos/conflictD_01_google.mp4', 'videos/conflictD_01_neutraal.mp4', 'videos/conflictE_02_GO.mp4', 'videos/conflictE_02_google.mp4', 'videos/conflictE_02_neutraal.mp4'];
 
 // Global vars
 
@@ -416,10 +416,10 @@ for (var i = 1; i < n_images * n_images_repeat / n_images_break; i++) {
 
   // video blocks
   for (var i = 0; i < video_files_ids.length; i++) {
-      // add image stimulus
+      // add video example
       video_blocks.push({
           type: 'video-keyboard-response',
-          sources: video_files[video_files_ids[i]],
+          sources: [video_files[video_files_ids[i]]],
           autoplay: true,
           choices: jsPsych.NO_KEYS,
           on_load: function(data){
