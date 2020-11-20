@@ -237,16 +237,16 @@ if (!save_data) {
     stimulus: '<p>In the following images, you will see a traffic situation from the perspective of a cyclist. In each image, a car is approaching you. Sometimes this car is a self-driving car, and sometimes it is a normal car. Your task is to indicate what you, as a cyclist, would do: Brake (press \'B\') or Continue Pedaling (press \'P\'). You will view ' + n_images_per_participant * n_images_repeat + ' images. Observe the scene carefully before pressing the \'B\' or \'P\' key. The window of your browser should be at least 1300px wide and 800px tall. Press \'C\' to first watch a video that illustrates the speed of the car.</p>',
     choices: ['C'],
     on_finish: function(data){
-      group_choice: group_choice,
-          worker_code: finish_code,
-          browser_name: br_name,
-          browser_full_version: br_full_version,
-          browser_major_version: br_major_version,
-          browser_app_name: navigator.appName,
-          browser_user_agent: navigator.userAgent
+        jsPsych.data.addDataToLastTrial({
+            worker_code: finish_code,
+            browser_name: br_name,
+            browser_full_version: br_full_version,
+            browser_major_version: br_major_version,
+            browser_app_name: navigator.appName,
+            browser_user_agent: navigator.userAgent
+        });
     }
-  };
-
+};
 
   // /* block with video with example */
   // var video_block_1 = {
