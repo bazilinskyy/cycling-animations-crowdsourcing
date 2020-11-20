@@ -7,14 +7,37 @@
     <script src='jsPsych/plugins/jspsych-html-keyboard-response.js'></script>
     <script src='jsPsych/plugins/jspsych-video-keyboard-response.js'></script>
     <script src='jsPsych/plugins/jspsych-image-keyboard-response.js'></script>
+    <script src='jsPsych/plugins/jspsych-survey-html-form.js'></script>
     <script src='jsPsych/plugins/jspsych-call-function.js'></script>
     <link href='jsPsych/css/jspsych.css' rel='stylesheet' type='text/css'></link>
     <link href='css/experiment.css' rel='stylesheet' type='text/css'></link>
     <link rel='icon' type='image/png' href='/img/favicon.png' />
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
   </head>
   <body>
   </body>
   <script>
+
+// Consts
+var SHOW_DEBUG = false; // switch for debugging output
+var SAVE_DATA = 1;  // save data or not
+var image_prefix = 'img/stimuli/';
+var images_n = 36; // number of images
+var images_participant = 36; // number of images
+var n_images_repeat = 3;  // number of repeats of each condition
+var n_images_break = 30; // number of images between each break
+var video_files = ['videos/conflictD_01_GO.mp4', 'videos/conflictD_01_google.mp4', 'videos/conflictD_01_neutraal.mp4', 'videos/conflictE_02_GO.mp4', 'videos/conflictE_02_google.mp4', 'videos/conflictE_02_neutraal.mp4']
+
+// Global vars
+
+// Arrays
+var image_ids = [];
+var image_stimuli = [];
+var question_stimuli = [];
+var between_blocks = [];
+var video_blocks = [];
 
 
   /**
@@ -52,7 +75,7 @@
       var timestamp = window.performance.timing.navigationStart + window.performance.now();
       var current_time = Math.round(timestamp);
       var random_num = getRandomInt(1, 10000);
-      finish_code = 'R4' + current_time + 'CY' + random_num + '7B';
+      finish_code = 'Q9' + current_time + 'RS' + random_num + '4N';
     return finish_code;
   }
 
@@ -78,6 +101,44 @@
       return a;
   }
 
+/**
+ * Save data.
+ */
+function saveData() {
+    // check if data needs to be saved
+    if (save_data) {
+        if (debug) {
+            console.log('saving data', jsPsych.data.get().json());
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/experiment-data',
+            data: jsPsych.data.get().json(),
+            contentType: 'application/json'
+        })
+        .done(function() {
+            jsPsych.data.reset();
+        })
+        .fail(function() {
+            alert('A problem occurred while writing to the database. Please contact the researcher for more information.')
+            window.location.href = '/';
+        })
+        if (debug) {
+            console.log('data saved');
+        }
+    }
+}
+
+var debug = getUrlParameter('debug');
+if (!debug) {
+    debug = SHOW_DEBUG;
+}
+
+var save_data = getUrlParameter('save_data');
+if (!save_data) {
+    save_data = SAVE_DATA;
+}
+
   var post_trial_gap_last = -1;
 
   var post_trial_gap = function() {
@@ -86,23 +147,19 @@
     return post_trial;
   }
 
-  var image_prefix = 'img/stimuli/';
-
-  // create array of video_ids, remove 0th id, shuffle
-  var images_n = 180; // number of videos
-  var images_participant = 90; // number of videos
-  var image_ids = [];
-  var video_files = ['videos/conflictD_01_GO.mp4', 'videos/conflictD_01_google.mp4', 'videos/conflictD_01_neutraal.mp4', 'videos/conflictE_02_GO.mp4', 'videos/conflictE_02_google.mp4', 'videos/conflictE_02_neutraal.mp4']
-
   var video_files_ids = [0, 1, 2, 3, 4, 5];
   video_files_ids = shuffle(video_files_ids);
-  for (var i = 1; i <= images_n; i++) {
-      image_ids.push(i);
+
+  // populate image ID
+  for (var i = 1; i <= n_images; i++) {
+      for (var j = 1; j <= n_images_repeat; j++) { 
+          image_ids.push(i);
+      }
   }
-  image_ids = shuffle(image_ids);
-  var image_ids_slice_1 = image_ids.slice(0, images_participant/3);
-  var image_ids_slice_2 = image_ids.slice(images_participant/3, images_participant/3 * 2);
-  var image_ids_slice_3 = image_ids.slice(images_participant/3 * 2, images_participant);
+  image_ids = shuffle(image_ids);  // shuffle image IDs
+  // var image_ids_slice_1 = image_ids.slice(0, images_participant/3);
+  // var image_ids_slice_2 = image_ids.slice(images_participant/3, images_participant/3 * 2);
+  // var image_ids_slice_3 = image_ids.slice(images_participant/3 * 2, images_participant);
 
   /* define instructions block */
   var instructions_block = {
@@ -115,173 +172,247 @@
   };
 
 
-  /* block with video with example */
-  var video_block_1 = {
-    type: 'video-keyboard-response',
-    sources: [video_files[video_files_ids[0]]],
-    autoplay: true,
-    choices: jsPsych.NO_KEYS
-  };
+  // /* block with video with example */
+  // var video_block_1 = {
+  //   type: 'video-keyboard-response',
+  //   sources: [video_files[video_files_ids[0]]],
+  //   autoplay: true,
+  //   choices: jsPsych.NO_KEYS
+  // };
 
-  /* define between block 1b */
-  var between_block_1 = {
-    type: 'html-keyboard-response',
-    stimulus: '<p>Press \'C\' to continue to the first image.</p>',
-    choices: ['C'],
-    post_trial_gap: post_trial_gap
-  };
+  // /* define between block 1b */
+  // var between_block_1 = {
+  //   type: 'html-keyboard-response',
+  //   stimulus: '<p>Press \'C\' to continue to the first image.</p>',
+  //   choices: ['C'],
+  //   post_trial_gap: post_trial_gap
+  // };
 
-  /* define between block 1 */
-  var between_block_2 = {
-    type: 'html-keyboard-response',
-    stimulus: '<p>You have now viewed 30 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
-    choices: ['C']
-  };
+  // /* define between block 1 */
+  // var between_block_2 = {
+  //   type: 'html-keyboard-response',
+  //   stimulus: '<p>You have now viewed 30 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
+  //   choices: ['C']
+  // };
 
-    /* block with video with example */
-  var video_block_2 = {
-    type: 'video-keyboard-response',
-    sources: [video_files[video_files_ids[1]]],
-    autoplay: true,
-    choices: jsPsych.NO_KEYS
-  };
+  //   /* block with video with example */
+  // var video_block_2 = {
+  //   type: 'video-keyboard-response',
+  //   sources: [video_files[video_files_ids[1]]],
+  //   autoplay: true,
+  //   choices: jsPsych.NO_KEYS
+  // };
 
-  /* define between block 1 */
-  var between_block_2b = {
-    type: 'html-keyboard-response',
-    stimulus: '<p>Press \'C\' to continue to the next image.</p>',
-    choices: ['C']
-  };
+  // /* define between block 1 */
+  // var between_block_2b = {
+  //   type: 'html-keyboard-response',
+  //   stimulus: '<p>Press \'C\' to continue to the next image.</p>',
+  //   choices: ['C']
+  // };
 
-  /* define between block 2 */
-  var between_block_3 = {
-    type: 'html-keyboard-response',
-    stimulus: '<p>You have now viewed 60 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
-    choices: ['C']
-  };
+  // /* define between block 2 */
+  // var between_block_3 = {
+  //   type: 'html-keyboard-response',
+  //   stimulus: '<p>You have now viewed 60 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
+  //   choices: ['C']
+  // };
 
-    /* block with video with example */
-  var video_block_3 = {
-    type: 'video-keyboard-response',
-    sources: [video_files[video_files_ids[2]]],
-    autoplay: true,
-    choices: jsPsych.NO_KEYS
-  };
+  //   /* block with video with example */
+  // var video_block_3 = {
+  //   type: 'video-keyboard-response',
+  //   sources: [video_files[video_files_ids[2]]],
+  //   autoplay: true,
+  //   choices: jsPsych.NO_KEYS
+  // };
 
-  /* define between block 1b */
-  var between_block_3b = {
-    type: 'html-keyboard-response',
-    stimulus: '<p>Press \'C\' to continue to the next image.</p>',
-    choices: ['C'],
-    post_trial_gap: post_trial_gap
-  };
+  // /* define between block 1b */
+  // var between_block_3b = {
+  //   type: 'html-keyboard-response',
+  //   stimulus: '<p>Press \'C\' to continue to the next image.</p>',
+  //   choices: ['C'],
+  //   post_trial_gap: post_trial_gap
+  // };
 
-  /* dynamically build a list of images for block 1 */
-  for (var i = 0; i < images_participant/3; i++) {
-      image_name = image_prefix + 'image_' + image_ids_slice_1[i] + '.jpg';
-      test_stimuli_1.push(
-      {
-        stimulus: image_name
-      }
-    );
+  // /* dynamically build a list of images for block 1 */
+  // for (var i = 0; i < images_participant/3; i++) {
+  //     image_name = image_prefix + 'image_' + image_ids_slice_1[i] + '.jpg';
+  //     test_stimuli_1.push(
+  //     {
+  //       stimulus: image_name
+  //     }
+  //   );
+  // }
+
+  // /* dynamically build a list of images for block 2 */
+  // for (var i = 0; i < images_participant/3; i++) {
+  //     image_name = image_prefix + 'image_' + image_ids_slice_2[i] + '.jpg';
+  //     test_stimuli_2.push(
+  //     {
+  //       stimulus: image_name
+  //     }
+  //   );
+  // }
+
+  // /* dynamically build a list of images for block 3 */
+  // for (var i = 0; i < images_participant/3; i++) {
+  //     image_name = image_prefix + 'image_' + image_ids_slice_3[i] + '.jpg';
+  //     test_stimuli_3.push(
+  //     {
+  //       stimulus: image_name
+  //     }
+  //   );
+  // }
+
+  // var image_block_1 = {
+  //   type: 'image-keyboard-response',
+  //   timeline: test_stimuli_1,
+  //   choices: ['b', 'p'],
+  //   post_trial_gap: post_trial_gap,
+  //   prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
+  //   on_finish: function(data){
+  //       jsPsych.data.addDataToLastTrial({post_trial_gap: post_trial_gap_last});
+  //   }
+  // };
+
+  // var image_block_2 = {
+  //   type: 'image-keyboard-response',
+  //   timeline: test_stimuli_2,
+  //   choices: ['b', 'p'],
+  //   post_trial_gap: post_trial_gap,
+  //   prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
+  //   on_finish: function(data){
+  //       jsPsych.data.addDataToLastTrial({post_trial_gap: post_trial_gap_last});
+  //   }
+  // };
+
+  // var image_block_3 = {
+  //   type: 'image-keyboard-response',
+  //   timeline: test_stimuli_3,
+  //   choices: ['b', 'p'],
+  //   post_trial_gap: post_trial_gap,
+  //   prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
+  //   on_finish: function(data){
+  //       jsPsych.data.addDataToLastTrial({post_trial_gap: post_trial_gap_last});
+  //   }
+  // };
+
+
+
+
+
+
+  /**
+   * Image stimuli.
+   **/
+  // populate arrays of stimuli
+  for (var i = 0; i < n_images * n_images_repeat; i++) {
+      // add image stimulus
+      image_stimuli.push({
+          type: 'image-keyboard-response',
+          stimulus: image_prefix + 'stimuli/image_' + image_ids[i] + '.jpg',
+          choices: ['b', 'p'],
+          post_trial_gap: post_trial_gap,
+          prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
+          on_finish: function(data){
+              jsPsych.data.addDataToLastTrial({
+                  post_trial_gap: post_trial_gap_last,
+                  worker_code: finish_code
+              });
+          }
+      });
+      // add questions
+      question_stimuli.push({
+          type: 'survey-html-form',
+          preamble: '<p> How are you feeling <b>right now?</b> </p>',
+          html: '<p> I am feeling <input name="first" type="text" />, <input name="second" type="text" />, and <input name="third" type="text" />.</p>'
+      });
   }
 
-  /* dynamically build a list of images for block 2 */
-  for (var i = 0; i < images_participant/3; i++) {
-      image_name = image_prefix + 'image_' + image_ids_slice_2[i] + '.jpg';
-      test_stimuli_2.push(
-      {
-        stimulus: image_name
-      }
-    );
+// build between blocks
+for (var i = 1; i < n_images * n_images_repeat / n_images_break; i++) {
+    var images_done = n_images_break * i;
+    between_blocks.push({
+        type: 'html-keyboard-response',
+        stimulus: '<div class="alert alert-primary" role="alert" style="text-align: left;"><h4 class="alert-heading">Break</h4><p>You have now completed ' + images_done + ' images out of ' + n_images_per_participant * n_images_repeat + '.</p><hr><p class="mb-0">When ready press \'N\' to proceed to the next batch.</p></div>',
+        choices: ['N']
+    });
+}
+
+  // video blocks
+  for (var i = 0; i < video_files_ids.length; i++) {
+      // add image stimulus
+      video_blocks.push({
+          type: 'video-keyboard-response',
+          sources: video_files[video_files_ids[i]],
+          autoplay: true,
+          choices: jsPsych.NO_KEYS
+      });
   }
 
-  /* dynamically build a list of images for block 3 */
-  for (var i = 0; i < images_participant/3; i++) {
-      image_name = image_prefix + 'image_' + image_ids_slice_3[i] + '.jpg';
-      test_stimuli_3.push(
-      {
-        stimulus: image_name
-      }
-    );
-  }
+// continue block
+var continue_block = {
+    type: 'html-keyboard-response',
+    stimulus: stimulus_str,
+    choices: ['C']
+};
 
-  var image_block_1 = {
-    type: 'image-keyboard-response',
-    timeline: test_stimuli_1,
-    choices: ['b', 'p'],
-    post_trial_gap: post_trial_gap,
-    prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
-    on_finish: function(data){
-        jsPsych.data.addDataToLastTrial({post_trial_gap: post_trial_gap_last});
-    }
-  };
-
-  var image_block_2 = {
-    type: 'image-keyboard-response',
-    timeline: test_stimuli_2,
-    choices: ['b', 'p'],
-    post_trial_gap: post_trial_gap,
-    prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
-    on_finish: function(data){
-        jsPsych.data.addDataToLastTrial({post_trial_gap: post_trial_gap_last});
-    }
-  };
-
-  var image_block_3 = {
-    type: 'image-keyboard-response',
-    timeline: test_stimuli_3,
-    choices: ['b', 'p'],
-    post_trial_gap: post_trial_gap,
-    prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
-    on_finish: function(data){
-        jsPsych.data.addDataToLastTrial({post_trial_gap: post_trial_gap_last});
-    }
-  };
-
-  var save_data_block = {
+// block for sending data
+var save_data_block = {
     type: 'call-function',
-    func:  function() {
-      $.ajax({
-          type: 'POST',
-          url: '/experiment-data',
-          data: jsPsych.data.get().json(),
-          contentType: 'application/json'
-        })
-        .done(function() {
-          jsPsych.data.reset();
-        })
-        .fail(function() {
-          alert('A problem occurred while writing to the database. Please contact the researcher for more information.')
-          window.location.href = '/';
-        })
-      }
-  }
+    func: function() {
+        saveData(); // save data
+    }
+}
 
-  /* create experiment timeline array */
+/**
+ * Create experiment timeline array
+ **/
   var timeline = [];
+  var video_blocks_count = 0; // counter for video examples shown
+  var between_blocks_count = 0;  // counter of shown between blocks
   timeline.push(instructions_block);
-  timeline.push(video_block_1);
-  timeline.push(between_block_1);
-  timeline.push(image_block_1);
-  timeline.push(between_block_2);
-  timeline.push(video_block_2);
-  timeline.push(between_block_2b);
-  timeline.push(image_block_2);
-  timeline.push(between_block_3);
-  timeline.push(video_block_3);
-  timeline.push(between_block_3b);
-  timeline.push(image_block_3);
-  timeline.push(save_data_block);
+  timeline.push(video_blocks[video_blocks_count]);
+  video_blocks_count++;  // increase counter of videos shown
+  for (var i = 0; i <= n_images_per_participant * n_images_repeat; i++) {
+    // check if the last image was reached
+    if (i >= n_images_per_participant * n_images_repeat) {
+        break;
+    }
 
-  /* MTurk information */
-  var turkInfo = jsPsych.turk.turkInfo();
-  if(turkInfo.previewMode && !turkInfo.outsideTurk) {
-    worker_id = turkInfo.workerId;
-  } else {
-    worker_id = String(Date.now());
+    // add the continue page before all images except for the 1st one
+    if (i != 0 && (i + 1) % n_images_break != 1) {
+        timeline.push(continue_block);
+    }
+    timeline.push(image_stimuli[i]);  // page with the stimulus
+    timeline.push(question_stimuli[i]);  // page with the stimulus
+    timeline.push(save_data_block);  // save data
+
+    // don't add the between block after the last trial
+    if ((i + 1) % n_images_break == 0 && i != 0 && i != n_images_per_participant * n_images_repeat - 1 && i < n_images_no_break_after - 1) {
+        if (debug) {
+            console.log('added break', i, between_blocks[between_blocks_count], i % n_images_break, i / n_images_break);
+        }
+        // between block
+        timeline.push(between_blocks[between_blocks_count]);
+        between_blocks_count++;
+        // video example block 
+        timeline.push(video_blocks[video_blocks_count]);
+        video_blocks_count++;  // increase counter of videos shown
+    }
   }
-  timestamp = String(Date.now());
+
+
+  // timeline.push(between_block_1);
+  // timeline.push(image_block_1);
+  // timeline.push(between_block_2);
+  // timeline.push(video_block_2);
+  // timeline.push(between_block_2b);
+  // timeline.push(image_block_2);
+  // timeline.push(between_block_3);
+  // timeline.push(video_block_3);
+  // timeline.push(between_block_3b);
+  // timeline.push(image_block_3);
+  // timeline.push(save_data_block);
 
   /* Start the experiment */
   jsPsych.init({
