@@ -28,7 +28,7 @@ var n_images = 36; // number of images
 var n_images_per_participant = 36; // number of images
 var n_images_repeat = 3;  // number of repeats of each condition
 var n_images_break = 30; // number of images between each break
-var n_images_no_break_after = 90;  // do not show breaks after this image
+var n_images_no_break_after = 100;  // do not show breaks after this image
 var video_files = ['videos/conflictD_01_GO.mp4', 'videos/conflictD_01_google.mp4', 'videos/conflictD_01_neutraal.mp4', 'videos/conflictE_02_GO.mp4', 'videos/conflictE_02_google.mp4', 'videos/conflictE_02_neutraal.mp4']
 
 // Global vars
@@ -401,6 +401,14 @@ var save_data_block = {
         video_blocks_count++;  // increase counter of videos shown
     }
   }
+
+  if (debug) {
+    console.log('image_ids', image_ids);
+    console.log('image_stimuli', image_stimuli);
+    console.log('timeline', timeline);
+    console.log('between_blocks', between_blocks);
+    console.log('video_blocks', video_blocks);
+}
 
 
   // timeline.push(between_block_1);
