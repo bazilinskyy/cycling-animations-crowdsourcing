@@ -227,9 +227,6 @@ if (!save_data) {
       }
   }
   image_ids = shuffle(image_ids);  // shuffle image IDs
-  // var image_ids_slice_1 = image_ids.slice(0, images_participant/3);
-  // var image_ids_slice_2 = image_ids.slice(images_participant/3, images_participant/3 * 2);
-  // var image_ids_slice_3 = image_ids.slice(images_participant/3 * 2, images_participant);
 
   /* define instructions block */
   var instructions_block = {
@@ -247,135 +244,6 @@ if (!save_data) {
         });
     }
 };
-
-  // /* block with video with example */
-  // var video_block_1 = {
-  //   type: 'video-keyboard-response',
-  //   sources: [video_files[video_files_ids[0]]],
-  //   autoplay: true,
-  //   choices: jsPsych.NO_KEYS
-  // };
-
-  // /* define between block 1b */
-  // var between_block_1 = {
-  //   type: 'html-keyboard-response',
-  //   stimulus: '<p>Press \'C\' to continue to the first image.</p>',
-  //   choices: ['C'],
-  //   post_trial_gap: post_trial_gap
-  // };
-
-  // /* define between block 1 */
-  // var between_block_2 = {
-  //   type: 'html-keyboard-response',
-  //   stimulus: '<p>You have now viewed 30 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
-  //   choices: ['C']
-  // };
-
-  //   /* block with video with example */
-  // var video_block_2 = {
-  //   type: 'video-keyboard-response',
-  //   sources: [video_files[video_files_ids[1]]],
-  //   autoplay: true,
-  //   choices: jsPsych.NO_KEYS
-  // };
-
-  // /* define between block 1 */
-  // var between_block_2b = {
-  //   type: 'html-keyboard-response',
-  //   stimulus: '<p>Press \'C\' to continue to the next image.</p>',
-  //   choices: ['C']
-  // };
-
-  // /* define between block 2 */
-  // var between_block_3 = {
-  //   type: 'html-keyboard-response',
-  //   stimulus: '<p>You have now viewed 60 images out of 90. Press \'C\' to watch the video with the video illustration again.</p>',
-  //   choices: ['C']
-  // };
-
-  //   /* block with video with example */
-  // var video_block_3 = {
-  //   type: 'video-keyboard-response',
-  //   sources: [video_files[video_files_ids[2]]],
-  //   autoplay: true,
-  //   choices: jsPsych.NO_KEYS
-  // };
-
-  // /* define between block 1b */
-  // var between_block_3b = {
-  //   type: 'html-keyboard-response',
-  //   stimulus: '<p>Press \'C\' to continue to the next image.</p>',
-  //   choices: ['C'],
-  //   post_trial_gap: post_trial_gap
-  // };
-
-  // /* dynamically build a list of images for block 1 */
-  // for (var i = 0; i < images_participant/3; i++) {
-  //     image_name = image_prefix + 'image_' + image_ids_slice_1[i] + '.jpg';
-  //     test_stimuli_1.push(
-  //     {
-  //       stimulus: image_name
-  //     }
-  //   );
-  // }
-
-  // /* dynamically build a list of images for block 2 */
-  // for (var i = 0; i < images_participant/3; i++) {
-  //     image_name = image_prefix + 'image_' + image_ids_slice_2[i] + '.jpg';
-  //     test_stimuli_2.push(
-  //     {
-  //       stimulus: image_name
-  //     }
-  //   );
-  // }
-
-  // /* dynamically build a list of images for block 3 */
-  // for (var i = 0; i < images_participant/3; i++) {
-  //     image_name = image_prefix + 'image_' + image_ids_slice_3[i] + '.jpg';
-  //     test_stimuli_3.push(
-  //     {
-  //       stimulus: image_name
-  //     }
-  //   );
-  // }
-
-  // var image_block_1 = {
-  //   type: 'image-keyboard-response',
-  //   timeline: test_stimuli_1,
-  //   choices: ['b', 'p'],
-  //   post_trial_gap: post_trial_gap,
-  //   prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
-  //   on_finish: function(data){
-  //       jsPsych.data.addDataToLastTrial({post_trial_gap: post_trial_gap_last});
-  //   }
-  // };
-
-  // var image_block_2 = {
-  //   type: 'image-keyboard-response',
-  //   timeline: test_stimuli_2,
-  //   choices: ['b', 'p'],
-  //   post_trial_gap: post_trial_gap,
-  //   prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
-  //   on_finish: function(data){
-  //       jsPsych.data.addDataToLastTrial({post_trial_gap: post_trial_gap_last});
-  //   }
-  // };
-
-  // var image_block_3 = {
-  //   type: 'image-keyboard-response',
-  //   timeline: test_stimuli_3,
-  //   choices: ['b', 'p'],
-  //   post_trial_gap: post_trial_gap,
-  //   prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
-  //   on_finish: function(data){
-  //       jsPsych.data.addDataToLastTrial({post_trial_gap: post_trial_gap_last});
-  //   }
-  // };
-
-
-
-
-
 
   /**
    * Image stimuli.
@@ -395,7 +263,7 @@ if (!save_data) {
           type: 'survey-html-form',
           post_trial_gap: post_trial_gap,
           preamble: '<p>Please answer to the following questions based on <strong>the last image you saw</strong> that is also shown on the left.</p>',
-          html: '<div class="row"><div class="col-md-6"><img src="' + image_prefix + 'stimuli/image_' + image_ids[i] + '.jpg" ' + ' style="width: 100%"/></div><div class="col-md-6"><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q0"><strong>1. The situation is dangerous for the cyclist</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q0-0"><input type="radio" name="q0" id="q0-0" value="1"> Strongly disagree </label></div><div class="radio"><label for="q0-1"><input type="radio" name="q0" id="q0-1" value="2"> Disagree </label></div><div class="radio"><label for="q0-2"><input type="radio" name="q0" id="q0-2" value="3" checked="checked"> Neither disgaree no agree </label></div><div class="radio"><label for="q0-3"><input type="radio" name="q0" id="q0-3" value="4"> Agree </label></div><div class="radio"><label for="q0-4"><input type="radio" name="q0" id="q0-4" value="5"> Completely agree </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q1"><strong>2. What would you, as a cyclist, do in this situation?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q1-0"><input type="radio" name="q1" id="q1-0" value="1"> Certainly brake </label></div><div class="radio"><label for="q1-1"><input type="radio" name="q1" id="q1-1" value="2"> Brake </label></div><div class="radio"><label for="q1-2"><input type="radio" name="q1" id="q1-2" value="3" checked="checked"> Not sure </label></div><div class="radio"><label for="q1-3"><input type="radio" name="q1" id="q1-3" value="4"> Continue pedaling </label></div><div class="radio"><label for="q1-4"><input type="radio" name="q1" id="q1-4" value="5"> Certainly continue pedaling </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q2"><strong>3. How is the vehicle driving?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q2-0"><input type="radio" name="q2" id="q2-0" value="1"> Certainly manually </label></div><div class="radio"><label for="q2-1"><input type="radio" name="q2" id="q2-1" value="2"> Manually </label></div><div class="radio"><label for="q2-2"><input type="radio" name="q2" id="q2-2" value="3" checked="checked"> Not sure </label></div><div class="radio"><label for="q2-3"><input type="radio" name="q2" id="q2-3" value="4"> Automatically </label></div><div class="radio"><label for="q2-4"><input type="radio" name="q2" id="q2-4" value="5"> Certainly automatically </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q3"><strong>4. The vehicle\'s appearance (signs, windows, driver) makes it clear whether I should brake of continue pedaling</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q3-0"><input type="radio" name="q3" id="q3-0" value="1"> Strongly disagree </label></div><div class="radio"><label for="q3-1"><input type="radio" name="q3" id="q3-1" value="2"> Disagree </label></div><div class="radio"><label for="q3-2"><input type="radio" name="q3" id="q3-2" value="3" checked="checked"> Neither disgaree no agree </label></div><div class="radio"><label for="q3-3"><input type="radio" name="q3" id="q3-3" value="4"> Agree </label></div><div class="radio"><label for="q3-4"><input type="radio" name="q3" id="q3-4" value="5"> Strongly agree </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q4"><strong>5. Explain your answer to question 4</strong></label></div><div class="col-md-6" style="text-align: left"><input id="q5" name="q5" type="text" placeholder="Required" class="form-control input-md" required=""> <span class="form-text text-muted" style="font-size: 13px;">Describe why you selected the answer in Question 4</span> </div></div></div></div>',
+          html: '<div class="row"><div class="col-md-6"><img src="' + image_prefix + 'stimuli/image_' + image_ids[i] + '.jpg" ' + ' style="width: 100%"/></div><div class="col-md-6"><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q0"><strong>1. The situation is dangerous for the cyclist</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q0-0"><input type="radio" name="q0" id="q0-0" value="1"> Completely disagree </label></div><div class="radio"><label for="q0-1"><input type="radio" name="q0" id="q0-1" value="2"> Disagree </label></div><div class="radio"><label for="q0-2"><input type="radio" name="q0" id="q0-2" value="3" checked="checked"> Neither disgaree no agree </label></div><div class="radio"><label for="q0-3"><input type="radio" name="q0" id="q0-3" value="4"> Agree </label></div><div class="radio"><label for="q0-4"><input type="radio" name="q0" id="q0-4" value="5"> Completely agree </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q1"><strong>2. What would you, as a cyclist, do in this situation?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q1-0"><input type="radio" name="q1" id="q1-0" value="1"> Certainly brake </label></div><div class="radio"><label for="q1-1"><input type="radio" name="q1" id="q1-1" value="2"> Brake </label></div><div class="radio"><label for="q1-2"><input type="radio" name="q1" id="q1-2" value="3" checked="checked"> Not sure </label></div><div class="radio"><label for="q1-3"><input type="radio" name="q1" id="q1-3" value="4"> Continue pedaling </label></div><div class="radio"><label for="q1-4"><input type="radio" name="q1" id="q1-4" value="5"> Certainly continue pedaling </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q2"><strong>3. How is the vehicle driving?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q2-0"><input type="radio" name="q2" id="q2-0" value="1"> Certainly manually </label></div><div class="radio"><label for="q2-1"><input type="radio" name="q2" id="q2-1" value="2"> Manually </label></div><div class="radio"><label for="q2-2"><input type="radio" name="q2" id="q2-2" value="3" checked="checked"> Not sure </label></div><div class="radio"><label for="q2-3"><input type="radio" name="q2" id="q2-3" value="4"> Automatically </label></div><div class="radio"><label for="q2-4"><input type="radio" name="q2" id="q2-4" value="5"> Certainly automatically </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q3"><strong>4. The vehicle\'s appearance (signs, windows, driver) makes it clear whether I should brake of continue pedaling</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q3-0"><input type="radio" name="q3" id="q3-0" value="1"> Completely disagree </label></div><div class="radio"><label for="q3-1"><input type="radio" name="q3" id="q3-1" value="2"> Disagree </label></div><div class="radio"><label for="q3-2"><input type="radio" name="q3" id="q3-2" value="3" checked="checked"> Neither disgaree no agree </label></div><div class="radio"><label for="q3-3"><input type="radio" name="q3" id="q3-3" value="4"> Agree </label></div><div class="radio"><label for="q3-4"><input type="radio" name="q3" id="q3-4" value="5"> Completely agree </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q4"><strong>5. Explain your answer to question 4</strong></label></div><div class="col-md-6" style="text-align: left"><input id="q5" name="q5" type="text" placeholder="Required" class="form-control input-md" required=""> <span class="form-text text-muted" style="font-size: 13px;">Describe why you selected the answer in Question 4</span> </div></div></div></div>',
           on_finish: function(data){
               jsPsych.data.addDataToLastTrial({
                   post_trial_gap: post_trial_gap_last,
@@ -499,19 +367,6 @@ var save_data_block = {
     console.log('between_blocks', between_blocks);
     console.log('video_blocks', video_blocks);
   }
-
-
-  // timeline.push(between_block_1);
-  // timeline.push(image_block_1);
-  // timeline.push(between_block_2);
-  // timeline.push(video_block_2);
-  // timeline.push(between_block_2b);
-  // timeline.push(image_block_2);
-  // timeline.push(between_block_3);
-  // timeline.push(video_block_3);
-  // timeline.push(between_block_3b);
-  // timeline.push(image_block_3);
-  // timeline.push(save_data_block);
 
   /* Start the experiment */
   jsPsych.init({
