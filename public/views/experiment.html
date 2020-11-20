@@ -28,6 +28,7 @@ var n_images = 36; // number of images
 var n_images_per_participant = 36; // number of images
 var n_images_repeat = 3;  // number of repeats of each condition
 var n_images_break = 30; // number of images between each break
+var n_images_no_break_after = 90;  // do not show breaks after this image
 var video_files = ['videos/conflictD_01_GO.mp4', 'videos/conflictD_01_google.mp4', 'videos/conflictD_01_neutraal.mp4', 'videos/conflictE_02_GO.mp4', 'videos/conflictE_02_google.mp4', 'videos/conflictE_02_neutraal.mp4']
 
 // Global vars
@@ -388,7 +389,7 @@ var save_data_block = {
     timeline.push(save_data_block);  // save data
 
     // don't add the between block after the last trial
-    if ((i + 1) % n_images_break == 0 && i != 0 && i != n_images_per_participant * n_images_repeat - 1 && i < n_n_imageso_break_after - 1) {
+    if ((i + 1) % n_images_break == 0 && i != 0 && i != n_images_per_participant * n_images_repeat - 1 && i < n_images_no_break_after - 1) {
         if (debug) {
             console.log('added break', i, between_blocks[between_blocks_count], i % n_images_break, i / n_images_break);
         }
