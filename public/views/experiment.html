@@ -40,6 +40,75 @@ var question_stimuli = [];
 var between_blocks = [];
 var video_blocks = [];
 
+// browser info
+// https://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
+var nVer = navigator.appVersion;
+var nAgt = navigator.userAgent;
+var br_name  = navigator.appName;
+var br_full_version  = ''+parseFloat(navigator.appVersion); 
+var br_major_version = parseInt(navigator.appVersion,10);
+var nameOffset,verOffset,ix;
+
+// In Opera, the true version is after "Opera" or after "Version"
+if ((verOffset=nAgt.indexOf("Opera"))!=-1) {
+ br_name = "Opera";
+ br_full_version = nAgt.substring(verOffset+6);
+ if ((verOffset=nAgt.indexOf("Version"))!=-1) 
+   br_full_version = nAgt.substring(verOffset+8);
+}
+// In MSIE, the true version is after "MSIE" in userAgent
+else if ((verOffset=nAgt.indexOf("MSIE"))!=-1) {
+ br_name = "Microsoft Internet Explorer";
+ br_full_version = nAgt.substring(verOffset+5);
+}
+// In Chrome, the true version is after "Chrome" 
+else if ((verOffset=nAgt.indexOf("Chrome"))!=-1) {
+ br_name = "Chrome";
+ br_full_version = nAgt.substring(verOffset+7);
+}
+// In Safari, the true version is after "Safari" or after "Version" 
+else if ((verOffset=nAgt.indexOf("Safari"))!=-1) {
+ br_name = "Safari";
+ br_full_version = nAgt.substring(verOffset+7);
+ if ((verOffset=nAgt.indexOf("Version"))!=-1) 
+   br_full_version = nAgt.substring(verOffset+8);
+}
+// In Firefox, the true version is after "Firefox" 
+else if ((verOffset=nAgt.indexOf("Firefox"))!=-1) {
+ browserName = "Firefox";
+ br_full_version = nAgt.substring(verOffset+8);
+}
+// In most other browsers, "name/version" is at the end of userAgent 
+else if ( (nameOffset=nAgt.lastIndexOf(' ')+1) < 
+          (verOffset=nAgt.lastIndexOf('/')) ) 
+{
+ browserName = nAgt.substring(nameOffset,verOffset);
+ br_full_version = nAgt.substring(verOffset+1);
+ if (browserName.toLowerCase()==browserName.toUpperCase()) {
+  browserName = navigator.appName;
+ }
+}
+// trim the br_full_version string at semicolon/space if present
+if ((ix=br_full_version.indexOf(";"))!=-1)
+   br_full_version=br_full_version.substring(0,ix);
+if ((ix=br_full_version.indexOf(" "))!=-1)
+   br_full_version=br_full_version.substring(0,ix);
+
+br_major_version = parseInt(''+br_full_version,10);
+if (isNaN(br_major_version)) {
+ br_full_version  = ''+parseFloat(navigator.appVersion); 
+ br_major_version = parseInt(navigator.appVersion,10);
+}
+
+if (debug) {
+    console.log('browser name', br_name);
+    console.log('browser full version', br_full_version);
+    console.log('browser major version', br_major_version);
+    console.log('browser navigator.appName', navigator.appName);
+    console.log('browser navigator.userAgent', navigator.userAgent);
+}
+
+
 
   /**
    * Returns a random integer between min (inclusive) and max (inclusive).
@@ -165,10 +234,16 @@ if (!save_data) {
   /* define instructions block */
   var instructions_block = {
     type: 'html-keyboard-response',
-    stimulus: '<p>In the following images, you will see a traffic situation from the perspective of a cyclist. In each image, a car is approaching you. Sometimes this car is a self-driving car, and sometimes it is a normal car. Your task is to indicate what you, as a cyclist, would do: Brake (press \'B\') or Continue Pedaling (press \'P\'). You will view 90 images. Observe the scene carefully before pressing the \'B\' or \'P\' key. The window of your browser should be at least 1300px wide and 800px tall. Press \'C\' to first watch a video that illustrates the speed of the car.</p>',
+    stimulus: '<p>In the following images, you will see a traffic situation from the perspective of a cyclist. In each image, a car is approaching you. Sometimes this car is a self-driving car, and sometimes it is a normal car. Your task is to indicate what you, as a cyclist, would do: Brake (press \'B\') or Continue Pedaling (press \'P\'). You will view ' + n_images_per_participant * n_images_repeat + ' images. Observe the scene carefully before pressing the \'B\' or \'P\' key. The window of your browser should be at least 1300px wide and 800px tall. Press \'C\' to first watch a video that illustrates the speed of the car.</p>',
     choices: ['C'],
     on_finish: function(data){
-      jsPsych.data.addDataToLastTrial({worker_code: finish_code});
+      group_choice: group_choice,
+          worker_code: finish_code,
+          browser_name: br_name,
+          browser_full_version: br_full_version,
+          browser_major_version: br_major_version,
+          browser_app_name: navigator.appName,
+          browser_user_agent: navigator.userAgent
     }
   };
 
