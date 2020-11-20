@@ -435,6 +435,13 @@ var continue_block = {
     choices: ['C']
 };
 
+// continue block
+var continue_first_block = {
+    type: 'html-keyboard-response',
+    stimulus: '<p>Press \'C\' to continue to the first image.</p>',
+    choices: ['C']
+};
+
 // block for sending data
 var save_data_block = {
     type: 'call-function',
@@ -451,6 +458,7 @@ var save_data_block = {
   var between_blocks_count = 0;  // counter of shown between blocks
   timeline.push(instructions_block);
   timeline.push(video_blocks[video_blocks_count]);
+  timeline.push(continue_first_block);
   // save data
   timeline.push(save_data_block);
   video_blocks_count++;  // increase counter of videos shown
