@@ -442,7 +442,7 @@ var save_data_block = {
   // final questions
   timeline.push(continue_block_end);
   questions_end_blocks = shuffle(questions_end_blocks);  // shuffle question blocks
-  for (var i = 0; i <= questions_end_blocks.length; i++) {
+  for (var i = 0; i < questions_end_blocks.length; i++) {
       timeline.push(questions_end_blocks[i]);  // page with the stimulus
   }
   timeline.push(save_data_block);  // save data
