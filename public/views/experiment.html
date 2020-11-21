@@ -333,7 +333,6 @@ for (var i = 0; i <= questions_end.length; i++) {
         html: '<div class="row"><div class="col-md-6"><img src="' + image_prefix + 'stimuli/image_' + questions_end[i] + '.jpg" ' + ' style="width: 100%"/></div><div class="col-md-6"><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q0"><strong>1. Based on the <u>car’s signs, windows, and (absence of a) driver</u>, how confusing is the situation for you as a cyclist?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q0-0"><input type="radio" name="q0" id="q0-0" value="1"> Not confusing at all </label></div><div class="radio"><label for="q0-1"><input type="radio" name="q0" id="q0-1" value="2"> A little confusing </label></div><div class="radio"><label for="q0-2"><input type="radio" name="q0" id="q0-2" value="3" checked="checked"> Moderately confusing </label></div><div class="radio"><label for="q0-3"><input type="radio" name="q0" id="q0-3" value="4"> Very confusing </label></div><div class="radio"><label for="q0-4"><input type="radio" name="q0" id="q0-4" value="5"> Extremely confusing </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q1"><strong>2. Explain your answer to question 1</strong></label></div><div class="col-md-6" style="text-align: left"><input id="q1" name="q1" type="text" placeholder="Required" class="form-control input-md" required=""> <span class="form-text text-muted" style="font-size: 13px;">Describe why you selected the answer in question 1</span> </div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q2"><strong>3. Based on the <u>car’s signs, windows, and (absence of a) driver</u>, how do you think the car is driving?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q2-0"><input type="radio" name="q2" id="q2-0" value="1"> The car is clearly driving manually </label></div><div class="radio"><label for="q2-1"><input type="radio" name="q2" id="q2-1" value="2"> The car is clearly driving manually </label></div><div class="radio"><label for="q2-2"><input type="radio" name="q2" id="q2-2" value="3" checked="checked"> It is unclear whether the car is driving manually or automatically </label></div><div class="radio"><label for="q2-3"><input type="radio" name="q2" id="q2-3" value="4"> The car is probably driving automatically </label></div><div class="radio"><label for="q2-4"><input type="radio" name="q2" id="q2-4" value="5"> The car is clearly driving automatically </label></div></div></div></div></div>',
         on_finish: function(data){
             jsPsych.data.addDataToLastTrial({
-                post_trial_gap: post_trial_gap_last,
                 worker_code: finish_code
             });
         }
@@ -420,11 +419,11 @@ var save_data_block = {
         timeline.push(continue_block);
     }
     timeline.push(image_stimuli[i]);  // page with the stimulus
-    q_blocks = shuffle(q_blocks);  // shuffle questions
-    for (var i = 0; i < q_blocks.length; i++) {
-      timeline.push(q_blocks[0]);  // page with questions
-    }
-    timeline.push(save_data_block);  // save data
+    // q_blocks = shuffle(q_blocks);  // shuffle questions
+    // for (var i = 0; i < q_blocks.length; i++) {
+    //   timeline.push(q_blocks[0]);  // page with questions
+    // }
+    // timeline.push(save_data_block);  // save data
 
     // don't add the between block after the last trial
     if ((i + 1) % n_images_break == 0 && i != 0 && i != n_images_per_participant * n_images_repeat - 1 && i < n_images_no_break_after - 1) {
@@ -441,13 +440,13 @@ var save_data_block = {
   }
 
   // final questions
-  timeline.push(continue_block_end);
-  for (var i = 0; i <= questions_end.length; i++) {
-      questions_end_blocks = shuffle(questions_end_blocks);  // shuffle question blocks
-      for (var j = 0; j < questions_end_blocks.length; j++) {
-        timeline.push(questions_end_blocks[j]);  // page with the stimulus
-      }
-  }
+  // timeline.push(continue_block_end);
+  // for (var i = 0; i <= questions_end.length; i++) {
+  //     questions_end_blocks = shuffle(questions_end_blocks);  // shuffle question blocks
+  //     for (var j = 0; j < questions_end_blocks.length; j++) {
+  //       timeline.push(questions_end_blocks[j]);  // page with the stimulus
+  //     }
+  // }
   timeline.push(save_data_block);  // save data
 
   if (debug) {
