@@ -420,12 +420,16 @@ var save_data_block = {
     }
     timeline.push(image_stimuli[i]);  // page with the stimulus
     q_blocks = shuffle(q_blocks);  // shuffle questions
-    for (var i = 0; i < q_blocks.length; i++) {
-      timeline.push(q_blocks[i]);  // page with questions
-    }
+    // for (var i = 0; i < q_blocks.length; i++) {
+    //   timeline.push(q_blocks[i]);  // page with questions
+    // }
     timeline.push(save_data_block);  // save data
 
-    // timeline.push(q_blocks[0]);
+    timeline.push(q_blocks[0]);
+    timeline.push(q_blocks[1]);
+    timeline.push(q_blocks[2]);
+    timeline.push(q_blocks[3]);
+    timeline.push(q_blocks[4);
 
     // don't add the between block after the last trial
     if ((i + 1) % n_images_break == 0 && i != 0 && i != n_images_per_participant * n_images_repeat - 1 && i < n_images_no_break_after - 1) {
