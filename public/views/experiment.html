@@ -449,14 +449,12 @@ questions_inject_blocks = shuffle(questions_inject_blocks);  // shuffle question
     // check if need to add injection
     var index_injection = 0;
     if (questions_inject_locations.includes(i)) {  // image id is saved for injection
-        timeline.push(questions_inject[questions_inject_count]);  // page with questions
-        questions_inject_count++;
         index_injection = getRandomInt(0, q_blocks.length - 1);  // decide in which position with questions to show
     }
     // pages with questions
     for (var j = 0; j < q_blocks.length; j++) {
       if (questions_inject_locations.includes(i) && j == index_injection) {  // image id is saved for injection
-          timeline.push(questions_inject[questions_inject_count]);  // page with questions
+          timeline.push(questions_inject_blocks[questions_inject_count]);  // page with questions
           questions_inject_count++;
       }
       timeline.push(q_blocks[j]);
