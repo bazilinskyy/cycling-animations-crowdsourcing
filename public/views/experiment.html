@@ -40,6 +40,9 @@ var between_blocks = [];
 var video_blocks = [];
 var q_blocks = [];
 var questions_end_blocks = [];
+var questions_inject = ['2+2=4', 'Bananas are yellow', 'Oranges are orange', '4+3=7', 'Current year is 2020', 'Earth is round', 'France is in Europe', '3+2=5', 'Tomatoes are red', 'Water os wet'];  // test questions to inject
+var questions_inject_locations = [];
+var questions_inject_blocks = [];
 
 // browser info
 // https://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
@@ -396,12 +399,32 @@ var save_data_block = {
     }
 };
 
+// Questions for injections
+questions_inject_locations = shuffle(image_ids);  // assign image ids and shuffle
+questions_inject_locations = questions_inject_locations.slice(0, questions_inject.length);  // trim to the number of injections
+for (var i = 1; i < questions_inject.length; i++) {
+    questions_inject_blocks.push({
+        type: 'html-keyboard-response',
+        stimulus: '<p>' + questions_inject[i] + ' Press \'T\' for True or \'F\' for False.</p>',
+        choices: ['T', 'F'],
+        post_trial_gap: post_trial_gap,
+        on_finish: function(data){
+            jsPsych.data.addDataToLastTrial({
+                post_trial_gap: post_trial_gap_last,
+                worker_code: finish_code
+            });
+        }
+    });
+}
+questions_inject_blocks = shuffle(questions_inject_blocks);  // shuffle questions for injection
+
 /**
  * Create experiment timeline array
  **/
   var timeline = [];
   var video_blocks_count = 0; // counter for video examples shown
   var between_blocks_count = 0;  // counter of shown between blocks
+  var questions_inject_count = 0;  // counter of shown injections
   timeline.push(questions_end_blocks[0]);
   timeline.push(instructions_block);
   timeline.push(video_blocks[video_blocks_count]);
@@ -409,6 +432,7 @@ var save_data_block = {
   // save data
   timeline.push(save_data_block);
   video_blocks_count++;  // increase counter of videos shown
+  questions_inject_count;
   for (var i = 0; i <= n_images_per_participant * n_images_repeat; i++) {
     // check if the last image was reached
     if (i >= n_images_per_participant * n_images_repeat) {
@@ -420,12 +444,24 @@ var save_data_block = {
         timeline.push(continue_block);
     }
     timeline.push(image_stimuli[i]);  // page with the stimulus
+    // questions
     q_blocks = shuffle(q_blocks);  // shuffle questions
+    // check if need to add injection
+    var index_injection = 0;
+    if (questions_inject_locations.includes(i)) {  // image id is saved for injection
+        timeline.push(questions_inject[questions_inject_count]);  // page with questions
+        questions_inject_count++;
+        index_injection = getRandomInt(0, q_blocks.length - 1);  // decide in which position with questions to show
+    }
+    // pages with questions
     for (var j = 0; j < q_blocks.length; j++) {
-      timeline.push(q_blocks[j]);  // page with questions
+      if (questions_inject_locations.includes(i) && j == index_injection) {  // image id is saved for injection
+          timeline.push(questions_inject[questions_inject_count]);  // page with questions
+          questions_inject_count++;
+      }
+      timeline.push(q_blocks[j]);
     }
     timeline.push(save_data_block);  // save data
-
     // don't add the between block after the last trial
     if ((i + 1) % n_images_break == 0 && i != 0 && i != n_images_per_participant * n_images_repeat - 1 && i < n_images_no_break_after - 1) {
         if (debug) {
