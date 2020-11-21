@@ -425,12 +425,6 @@ var save_data_block = {
     }
     timeline.push(save_data_block);  // save data
 
-    // timeline.push(q_blocks[0]);
-    // timeline.push(q_blocks[1]);
-    // timeline.push(q_blocks[2]);
-    // timeline.push(q_blocks[3]);
-    // timeline.push(q_blocks[4]);
-
     // don't add the between block after the last trial
     if ((i + 1) % n_images_break == 0 && i != 0 && i != n_images_per_participant * n_images_repeat - 1 && i < n_images_no_break_after - 1) {
         if (debug) {
@@ -446,13 +440,11 @@ var save_data_block = {
   }
 
   // final questions
-  // timeline.push(continue_block_end);
-  // for (var i = 0; i <= questions_end.length; i++) {
-  //     questions_end_blocks = shuffle(questions_end_blocks);  // shuffle question blocks
-  //     for (var j = 0; j < questions_end_blocks.length; j++) {
-  //       timeline.push(questions_end_blocks[j]);  // page with the stimulus
-  //     }
-  // }
+  timeline.push(continue_block_end);
+  questions_end_blocks = shuffle(questions_end_blocks);  // shuffle question blocks
+  for (var i = 0; i <= questions_end_blocks.length; i++) {
+      timeline.push(questions_end_blocks[i]);  // page with the stimulus
+  }
   timeline.push(save_data_block);  // save data
 
   if (debug) {
