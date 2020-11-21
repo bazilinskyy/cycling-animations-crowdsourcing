@@ -24,14 +24,13 @@
 var SHOW_DEBUG = false; // switch for debugging output
 var SAVE_DATA = 1;  // save data or not
 var image_prefix = 'img/';
-var n_images = 36; // number of images
-var n_images_per_participant = 36; // number of images
-var n_images_repeat = 3;  // number of repeats of each condition
-var n_images_break = 30; // number of images between each break
-var n_images_no_break_after = 100;  // do not show breaks after this image
+var n_images = 48; // number of images
+var n_images_per_participant = 48; // number of images
+var n_images_repeat = 1;  // number of repeats of each condition
+var n_images_break = 10; // number of images between each break
+var n_images_no_break_after = 48;  // do not show breaks after this image
 var video_files = ['videos/conflictD_01_GO.mp4', 'videos/conflictD_01_google.mp4', 'videos/conflictD_01_neutraal.mp4', 'videos/conflictE_02_GO.mp4', 'videos/conflictE_02_google.mp4', 'videos/conflictE_02_neutraal.mp4'];
-
-// Global vars
+var questions_end = [1,2,3,4,5,6,7,8,9,10,11,12];
 
 // Arrays
 var image_ids = [];
@@ -39,6 +38,8 @@ var image_stimuli = [];
 var question_stimuli = [];
 var between_blocks = [];
 var video_blocks = [];
+var q_blocks = [];
+var questions_end_blocks = [];
 
 // browser info
 // https://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
@@ -151,11 +152,6 @@ if (debug) {
 
   var finish_code = getFinishCode();
 
-  /* define test block */
-  var test_stimuli_1 = [];
-  var test_stimuli_2 = [];
-  var test_stimuli_3 = [];
-
   /**
    * Shuffles array in place.
    * @param {Array} a items An array containing the items.
@@ -258,23 +254,78 @@ if (!save_data) {
           // post_trial_gap: post_trial_gap,
           prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>"
       });
-      // add questions
-      question_stimuli.push({
-          type: 'survey-html-form',
-          post_trial_gap: post_trial_gap,
-          preamble: '<p>Please answer the following questions based on <strong>the last image you saw</strong>, which is now also shown on the left.</p>',
-          html: '<div class="row" style="marging-bottom: 20px"><div class="col-md-6"><p>Image you saw on the previous screen:</p><img src="' + image_prefix + 'stimuli/image_' + image_ids[i] + '.jpg" ' + ' style="width: 100%"/><p>Zoomed in car you saw on the last image:</p><img src="' + image_prefix + 'zoomed_in.jpg" ' + ' style="width: 100%"/></div><div class="col-md-6"><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q0"><strong>1. The vehicle\'s appearance (signs, windows, driver) makes it clear whether I should brake or continue pedaling</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q0-0"><input type="radio" name="q0" id="q0-0" value="1"> Completely disagree </label></div><div class="radio"><label for="q0-1"><input type="radio" name="q0" id="q0-1" value="2"> Disagree </label></div><div class="radio"><label for="q0-2"><input type="radio" name="q0" id="q0-2" value="3" checked="checked"> Neither disgaree no agree </label></div><div class="radio"><label for="q0-3"><input type="radio" name="q0" id="q0-3" value="4"> Agree </label></div><div class="radio"><label for="q0-4"><input type="radio" name="q0" id="q0-4" value="5"> Completely agree </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q1"><strong>2. Explain your answer to question 1</strong></label></div><div class="col-md-6" style="text-align: left"><input id="q1" name="q1" type="text" placeholder="Required" class="form-control input-md" required=""> <span class="form-text text-muted" style="font-size: 13px;">Describe why you selected the answer in question 1</span> </div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q2"><strong>3. The vehicle\'s appearance (signs, windows, driver) makes me think that the vehicle is driving automatically</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q2-0"><input type="radio" name="q2" id="q2-0" value="1"> Completely disagree </label></div><div class="radio"><label for="q2-1"><input type="radio" name="q2" id="q2-1" value="2"> Disagree </label></div><div class="radio"><label for="q2-2"><input type="radio" name="q2" id="q2-2" value="3" checked="checked"> Neither disgaree no agree </label></div><div class="radio"><label for="q2-3"><input type="radio" name="q2" id="q2-3" value="4"> Agree </label></div><div class="radio"><label for="q2-4"><input type="radio" name="q2" id="q2-4" value="5"> Completely agree </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q3"><strong>4. The situation is dangerous for the cyclist</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q3-0"><input type="radio" name="q3" id="q3-0" value="1"> Completely disagree </label></div><div class="radio"><label for="q3-1"><input type="radio" name="q3" id="q3-1" value="2"> Disagree </label></div><div class="radio"><label for="q3-2"><input type="radio" name="q3" id="q3-2" value="3" checked="checked"> Neither disagree nor agree </label></div><div class="radio"><label for="q3-3"><input type="radio" name="q3" id="q3-3" value="4"> Agree </label></div><div class="radio"><label for="q3-4"><input type="radio" name="q3" id="q3-4" value="5"> Completely agree </label></div></div></div></div></div>',
-          on_finish: function(data){
-              jsPsych.data.addDataToLastTrial({
-                  post_trial_gap: post_trial_gap_last,
-                  worker_code: finish_code
-              });
-              if (debug) {
-                console.log('quesdtion stimulus with post_trial_gap_last', post_trial_gap_last);
-              }
-          }
-      });
+      
   }
+
+// blocks with questions
+q_blocks.push({  // A driver was visible in the car
+    type: 'html-keyboard-response',
+    stimulus: '<p>A driver was visible in the car. Press \'T\' for True or \'F\' for False.</p>',
+    choices: ['T', 'F'],
+    post_trial_gap: post_trial_gap,
+    on_finish: function(data){
+        jsPsych.data.addDataToLastTrial({
+            post_trial_gap: post_trial_gap_last,
+            worker_code: finish_code
+        });
+    }
+});
+q_blocks.push({  // The windows of the car were blinded
+    type: 'html-keyboard-response',
+    stimulus: '<p>The windows of the car were blinded. Press \'T\' for True or \'F\' for False.</p>',
+    choices: ['T', 'F'],
+    post_trial_gap: post_trial_gap,
+    on_finish: function(data){
+        jsPsych.data.addDataToLastTrial({
+            post_trial_gap: post_trial_gap_last,
+            worker_code: finish_code
+        });
+    }
+});
+q_blocks.push({  // There was a sign ‘GO’ on the roof
+    type: 'html-keyboard-response',
+    stimulus: '<p>There was a sign ‘GO’ on the roof. Press \'T\' for True or \'F\' for False.</p>',
+    choices: ['T', 'F'],
+    post_trial_gap: post_trial_gap,
+    on_finish: function(data){
+        jsPsych.data.addDataToLastTrial({
+            post_trial_gap: post_trial_gap_last,
+            worker_code: finish_code
+        });
+    }
+});
+q_blocks.push({  // There were signs on the side of the car
+    type: 'html-keyboard-response',
+    stimulus: '<p>There were signs on the side of the car. Press \'T\' for True or \'F\' for False.</p>',
+    choices: ['T', 'F'],
+    post_trial_gap: post_trial_gap,
+    on_finish: function(data){
+        jsPsych.data.addDataToLastTrial({
+            post_trial_gap: post_trial_gap_last,
+            worker_code: finish_code
+        });
+    }
+});
+q_blocks.push({  // The car was driving automatically
+    type: 'html-keyboard-response',
+    stimulus: '<p>The car was driving automatically. Press \'T\' for True or \'F\' for False.</p>',
+    choices: ['T', 'F'],
+    post_trial_gap: post_trial_gap,
+    on_finish: function(data){
+        jsPsych.data.addDataToLastTrial({
+            post_trial_gap: post_trial_gap_last,
+            worker_code: finish_code
+        });
+    }
+});
+
+// add questions
+for (var i = 0; i <= questions_end.length; i++) {
+      questions_end_blocks.push({
+          type: 'survey-html-form',
+          preamble: '<p>Please answer the following questions based on <strong>the last image you saw</strong>, which is now also shown on the left.</p>',
+          html: '<div class="row"><div class="col-md-6"><img src="' + image_prefix + 'stimuli/image_' + questions_end[i] + '.jpg" ' + ' style="width: 100%"/></div><div class="col-md-6"><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q0"><strong>1. Based on the <u>car’s signs, windows, and (absence of a) driver</u>, how confusing is the situation for you as a cyclist?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q0-0"><input type="radio" name="q0" id="q0-0" value="1"> Not confusing at all </label></div><div class="radio"><label for="q0-1"><input type="radio" name="q0" id="q0-1" value="2"> A little confusing </label></div><div class="radio"><label for="q0-2"><input type="radio" name="q0" id="q0-2" value="3" checked="checked"> Moderately confusing </label></div><div class="radio"><label for="q0-3"><input type="radio" name="q0" id="q0-3" value="4"> Very confusing </label></div><div class="radio"><label for="q0-4"><input type="radio" name="q0" id="q0-4" value="5"> Extremely confusing </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q1"><strong>2. Explain your answer to question 1</strong></label></div><div class="col-md-6" style="text-align: left"><input id="q1" name="q1" type="text" placeholder="Required" class="form-control input-md" required=""> <span class="form-text text-muted" style="font-size: 13px;">Describe why you selected the answer in question 1</span> </div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q2"><strong>3. Based on the car’s signs, windows, and (absence of a) driver, how do you think the car is driving?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q2-0"><input type="radio" name="q2" id="q2-0" value="1"> The car is clearly driving manually </label></div><div class="radio"><label for="q2-1"><input type="radio" name="q2" id="q2-1" value="2"> The car is clearly driving manually </label></div><div class="radio"><label for="q2-2"><input type="radio" name="q2" id="q2-2" value="3" checked="checked"> It is unclear whether the car is driving manually or automatically </label></div><div class="radio"><label for="q2-3"><input type="radio" name="q2" id="q2-3" value="4"> The car is probably driving automatically </label></div><div class="radio"><label for="q2-4"><input type="radio" name="q2" id="q2-4" value="5"> The car is clearly driving automatically </label></div></div></div></div></div>'
+      });
 
 // build between blocks
 for (var i = 1; i < n_images * n_images_repeat / n_images_break; i++) {
@@ -304,10 +355,17 @@ var continue_block = {
     choices: ['C']
 };
 
-// continue block
+// continue after instructions block
 var continue_first_block = {
     type: 'html-keyboard-response',
     stimulus: '<p>Press \'C\' to continue to the first image.</p>',
+    choices: ['C']
+};
+
+// continue before questions in the end
+var continue_block_end = {
+    type: 'html-keyboard-response',
+    stimulus: '<p>Now you will be presented with 12 images. Three questions will be asked about each image. Press \'C\' to continue to the next image.</p>',
     choices: ['C']
 };
 
@@ -325,7 +383,7 @@ var save_data_block = {
   var timeline = [];
   var video_blocks_count = 0; // counter for video examples shown
   var between_blocks_count = 0;  // counter of shown between blocks
-  timeline.push(question_stimuli[0]);
+  timeline.push(questions_end_blocks[0]);
   timeline.push(instructions_block);
   timeline.push(video_blocks[video_blocks_count]);
   timeline.push(continue_first_block);
@@ -343,7 +401,8 @@ var save_data_block = {
     //     timeline.push(continue_block);
     // }
     timeline.push(image_stimuli[i]);  // page with the stimulus
-    timeline.push(question_stimuli[i]);  // page with the stimulus
+    q_blocks = shuffle(q_blocks);  // shuffle questions
+    timeline.push(q_blocks);  // page with the stimulus
     timeline.push(save_data_block);  // save data
 
     // don't add the between block after the last trial
@@ -360,12 +419,20 @@ var save_data_block = {
     }
   }
 
+  // final questions
+  timeline.push(continue_block_end);
+  for (var i = 0; i <= questions_end.length; i++) {
+      questions_end_blocks = shuffle(questions_end_blocks);  // shuffle question blocks
+      timeline.push(questions_end_blocks);  // page with the stimulus
+  }
+
   if (debug) {
     console.log('image_ids', image_ids);
     console.log('image_stimuli', image_stimuli);
     console.log('timeline', timeline);
     console.log('between_blocks', between_blocks);
     console.log('video_blocks', video_blocks);
+    console.log('q_blocks', q_blocks);
   }
 
   /* Start the experiment */
