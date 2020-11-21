@@ -402,7 +402,7 @@ var save_data_block = {
 // Questions for injections
 questions_inject_locations = shuffle(image_ids);  // assign image ids and shuffle
 questions_inject_locations = questions_inject_locations.slice(0, questions_inject.length);  // trim to the number of injections
-for (var i = 1; i < questions_inject.length; i++) {
+for (var i = 0; i < questions_inject.length; i++) {
     questions_inject_blocks.push({
         type: 'html-keyboard-response',
         stimulus: '<p>' + questions_inject[i] + ' Press \'T\' for True or \'F\' for False.</p>',
