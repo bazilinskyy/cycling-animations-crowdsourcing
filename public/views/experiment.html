@@ -425,6 +425,7 @@ questions_inject_blocks = shuffle(questions_inject_blocks);  // shuffle question
   var video_blocks_count = 0; // counter for video examples shown
   var between_blocks_count = 0;  // counter of shown between blocks
   var questions_inject_count = 0;  // counter of shown injections
+  timeline.push(questions_inject_blocks[questions_inject_count]);
   timeline.push(questions_end_blocks[0]);
   timeline.push(instructions_block);
   timeline.push(video_blocks[video_blocks_count]);
