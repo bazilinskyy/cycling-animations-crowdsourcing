@@ -395,7 +395,12 @@ for (var i = 0; i < video_files_ids.length; i++) {
         type: 'video-keyboard-response',
         sources: [video_files[video_files_ids[i]]],
         autoplay: true,
-        choices: jsPsych.NO_KEYS
+        choices: jsPsych.NO_KEYS,
+        on_finish: function(data){
+          if (debug) {
+              console.log('video finished');
+          }
+        }
     });
 }
 
@@ -416,7 +421,12 @@ var continue_block = {
 var continue_first_block = {
     type: 'html-keyboard-response',
     stimulus: '<p>Press \'C\' to continue to the first image.</p>',
-    choices: ['C']
+    choices: ['C'],
+    on_load: function(data){
+      if (debug) {
+          console.log('continue started');
+      }
+    }
 };
 
 // continue before questions in the end
