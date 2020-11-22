@@ -1,36 +1,47 @@
-<!doctype html>
+<!DOCTYPE doctype html>
 <html>
-  <head>
-    <title>Images of cycling</title>
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-    <script src='jsPsych/jspsych.js'></script>
-    <script src='jsPsych/plugins/jspsych-html-keyboard-response.js'></script>
-    <script src='jsPsych/plugins/jspsych-video-keyboard-response.js'></script>
-    <script src='jsPsych/plugins/jspsych-image-keyboard-response.js'></script>
-    <script src='jsPsych/plugins/jspsych-html-slider-response.js'></script>
-    <script src='jsPsych/plugins/jspsych-survey-html-form.js'></script>
-    <script src='jsPsych/plugins/jspsych-call-function.js'></script>
-    <link href='jsPsych/css/jspsych.css' rel='stylesheet' type='text/css'></link>
-    <link href='css/experiment.css' rel='stylesheet' type='text/css'></link>
-    <link rel='icon' type='image/png' href='/img/favicon.png' />
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-  </head>
-  <body>
-  </body>
-  <script>
-
+    <head>
+        <title>
+            Images of cycling
+        </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+        </script>
+        <script src="jsPsych/jspsych.js">
+        </script>
+        <script src="jsPsych/plugins/jspsych-html-keyboard-response.js">
+        </script>
+        <script src="jsPsych/plugins/jspsych-video-keyboard-response.js">
+        </script>
+        <script src="jsPsych/plugins/jspsych-image-keyboard-response.js">
+        </script>
+        <script src="jsPsych/plugins/jspsych-html-slider-response.js">
+        </script>
+        <script src="jsPsych/plugins/jspsych-survey-html-form.js">
+        </script>
+        <script src="jsPsych/plugins/jspsych-call-function.js">
+        </script>
+        <link href="jsPsych/css/jspsych.css" rel="stylesheet" type="text/css"/>
+        <link href="css/experiment.css" rel="stylesheet" type="text/css"/>
+        <link href="/img/favicon.png" rel="icon" type="image/png"/>
+        <!-- bootstrap -->
+        <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" rel="stylesheet">
+            <script crossorigin="anonymous" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js">
+            </script>
+        </link>
+    </head>
+    <body>
+    </body>
+<script>
 // Consts
 var SHOW_DEBUG = false; // switch for debugging output
-var SAVE_DATA = 1;  // save data or not
+var SAVE_DATA = 1; // save data or not
 var image_prefix = 'img/';
 var n_images = 40; // number of images
 var n_zoom = 10; // number of zoomed in images
 var n_images_per_participant = 40; // number of images
-var n_images_repeat = 1;  // number of repeats of each condition
+var n_images_repeat = 1; // number of repeats of each condition
 var n_images_break = 10; // number of images between each break
-var n_images_no_break_after = 40;  // do not show breaks after this image
+var n_images_no_break_after = 40; // do not show breaks after this image
 var video_files = ['videos/conflictD_01_GO.mp4', 'videos/conflictD_01_google.mp4', 'videos/conflictD_01_neutraal.mp4', 'videos/conflictE_02_GO.mp4', 'videos/conflictE_02_google.mp4', 'videos/conflictE_02_neutraal.mp4'];
 
 // Arrays
@@ -42,7 +53,7 @@ var between_blocks = [];
 var video_blocks = [];
 var q_blocks = [];
 var questions_end_blocks = [];
-var questions_inject = ['2+2=5.', 'Bananas are yellow.', 'Oranges are orange.', '4+3=9.', 'Current year is 2013.', 'Earth is round.', 'France is in Europe.', '3+2=5.', 'Tomatoes are red.', 'Water is wet.'];  // test questions to inject
+var questions_inject = ['2+2=5.', 'Bananas are yellow.', 'Oranges are orange.', '4+3=9.', 'Current year is 2013.', 'Earth is round.', 'France is in Europe.', '3+2=5.', 'Tomatoes are red.', 'Water is wet.']; // test questions to inject
 var questions_inject_locations = [];
 var questions_inject_blocks = [];
 
@@ -50,60 +61,59 @@ var questions_inject_blocks = [];
 // https://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
 var nVer = navigator.appVersion;
 var nAgt = navigator.userAgent;
-var br_name  = navigator.appName;
-var br_full_version  = ''+parseFloat(navigator.appVersion); 
-var br_major_version = parseInt(navigator.appVersion,10);
-var nameOffset,verOffset,ix;
+var br_name = navigator.appName;
+var br_full_version = '' + parseFloat(navigator.appVersion);
+var br_major_version = parseInt(navigator.appVersion, 10);
+var nameOffset, verOffset, ix;
 
 // In Opera, the true version is after "Opera" or after "Version"
-if ((verOffset=nAgt.indexOf("Opera"))!=-1) {
- br_name = "Opera";
- br_full_version = nAgt.substring(verOffset+6);
- if ((verOffset=nAgt.indexOf("Version"))!=-1) 
-   br_full_version = nAgt.substring(verOffset+8);
+if ((verOffset = nAgt.indexOf("Opera")) != -1) {
+    br_name = "Opera";
+    br_full_version = nAgt.substring(verOffset + 6);
+    if ((verOffset = nAgt.indexOf("Version")) != -1)
+        br_full_version = nAgt.substring(verOffset + 8);
 }
 // In MSIE, the true version is after "MSIE" in userAgent
-else if ((verOffset=nAgt.indexOf("MSIE"))!=-1) {
- br_name = "Microsoft Internet Explorer";
- br_full_version = nAgt.substring(verOffset+5);
+else if ((verOffset = nAgt.indexOf("MSIE")) != -1) {
+    br_name = "Microsoft Internet Explorer";
+    br_full_version = nAgt.substring(verOffset + 5);
 }
 // In Chrome, the true version is after "Chrome" 
-else if ((verOffset=nAgt.indexOf("Chrome"))!=-1) {
- br_name = "Chrome";
- br_full_version = nAgt.substring(verOffset+7);
+else if ((verOffset = nAgt.indexOf("Chrome")) != -1) {
+    br_name = "Chrome";
+    br_full_version = nAgt.substring(verOffset + 7);
 }
 // In Safari, the true version is after "Safari" or after "Version" 
-else if ((verOffset=nAgt.indexOf("Safari"))!=-1) {
- br_name = "Safari";
- br_full_version = nAgt.substring(verOffset+7);
- if ((verOffset=nAgt.indexOf("Version"))!=-1) 
-   br_full_version = nAgt.substring(verOffset+8);
+else if ((verOffset = nAgt.indexOf("Safari")) != -1) {
+    br_name = "Safari";
+    br_full_version = nAgt.substring(verOffset + 7);
+    if ((verOffset = nAgt.indexOf("Version")) != -1)
+        br_full_version = nAgt.substring(verOffset + 8);
 }
 // In Firefox, the true version is after "Firefox" 
-else if ((verOffset=nAgt.indexOf("Firefox"))!=-1) {
- browserName = "Firefox";
- br_full_version = nAgt.substring(verOffset+8);
+else if ((verOffset = nAgt.indexOf("Firefox")) != -1) {
+    browserName = "Firefox";
+    br_full_version = nAgt.substring(verOffset + 8);
 }
 // In most other browsers, "name/version" is at the end of userAgent 
-else if ( (nameOffset=nAgt.lastIndexOf(' ')+1) < 
-          (verOffset=nAgt.lastIndexOf('/')) ) 
-{
- browserName = nAgt.substring(nameOffset,verOffset);
- br_full_version = nAgt.substring(verOffset+1);
- if (browserName.toLowerCase()==browserName.toUpperCase()) {
-  browserName = navigator.appName;
- }
+else if ((nameOffset = nAgt.lastIndexOf(' ') + 1) <
+    (verOffset = nAgt.lastIndexOf('/'))) {
+    browserName = nAgt.substring(nameOffset, verOffset);
+    br_full_version = nAgt.substring(verOffset + 1);
+    if (browserName.toLowerCase() == browserName.toUpperCase()) {
+        browserName = navigator.appName;
+    }
 }
 // trim the br_full_version string at semicolon/space if present
-if ((ix=br_full_version.indexOf(";"))!=-1)
-   br_full_version=br_full_version.substring(0,ix);
-if ((ix=br_full_version.indexOf(" "))!=-1)
-   br_full_version=br_full_version.substring(0,ix);
+if ((ix = br_full_version.indexOf(";")) != -1)
+    br_full_version = br_full_version.substring(0, ix);
+if ((ix = br_full_version.indexOf(" ")) != -1)
+    br_full_version = br_full_version.substring(0, ix);
 
-br_major_version = parseInt(''+br_full_version,10);
+br_major_version = parseInt('' + br_full_version, 10);
 if (isNaN(br_major_version)) {
- br_full_version  = ''+parseFloat(navigator.appVersion); 
- br_major_version = parseInt(navigator.appVersion,10);
+    br_full_version = '' + parseFloat(navigator.appVersion);
+    br_major_version = parseInt(navigator.appVersion, 10);
 }
 
 if (debug) {
@@ -116,22 +126,22 @@ if (debug) {
 
 
 
-  /**
-   * Returns a random integer between min (inclusive) and max (inclusive).
-   * The value is no lower than min (or the next integer greater than min
-   * if min isn't an integer) and no greater than max (or the next integer
-   * lower than max if max isn't an integer).
-   */
-  function getRandomInt(min, max) {
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ */
+function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+}
 
-  /**
-   * Ger parameter from the URL.
-   */
-  var getUrlParameter = function getUrlParameter(sParam) {
+/**
+ * Ger parameter from the URL.
+ */
+var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
         sURLVariables = sPageURL.split('&'),
         sParameterName,
@@ -142,35 +152,35 @@ if (debug) {
             return sParameterName[1] === undefined ? true : sParameterName[1];
         }
     }
-  };
+};
 
-  /**
-   * Get finish code in the given format.
-   */
-  function getFinishCode() {
-      var timestamp = window.performance.timing.navigationStart + window.performance.now();
-      var current_time = Math.round(timestamp);
-      var random_num = getRandomInt(1, 10000);
-      finish_code = 'Q9' + current_time + 'RS' + random_num + '4N';
+/**
+ * Get finish code in the given format.
+ */
+function getFinishCode() {
+    var timestamp = window.performance.timing.navigationStart + window.performance.now();
+    var current_time = Math.round(timestamp);
+    var random_num = getRandomInt(1, 10000);
+    finish_code = 'Q9' + current_time + 'RS' + random_num + '4N';
     return finish_code;
-  }
+}
 
-  var finish_code = getFinishCode();
+var finish_code = getFinishCode();
 
-  /**
-   * Shuffles array in place.
-   * @param {Array} a items An array containing the items.
-   */
-  function shuffle(a) {
-      var j, x, i;
-      for (i = a.length - 1; i > 0; i--) {
-          j = Math.floor(Math.random() * (i + 1));
-          x = a[i];
-          a[i] = a[j];
-          a[j] = x;
-      }
-      return a;
-  }
+/**
+ * Shuffles array in place.
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
 
 /**
  * Save data.
@@ -182,18 +192,18 @@ function saveData() {
             console.log('saving data', jsPsych.data.get().json());
         }
         $.ajax({
-            type: 'POST',
-            url: '/experiment-data',
-            data: jsPsych.data.get().json(),
-            contentType: 'application/json'
-        })
-        .done(function() {
-            jsPsych.data.reset();
-        })
-        .fail(function() {
-            alert('A problem occurred while writing to the database. Please contact the researcher for more information.')
-            window.location.href = '/';
-        })
+                type: 'POST',
+                url: '/experiment-data',
+                data: jsPsych.data.get().json(),
+                contentType: 'application/json'
+            })
+            .done(function() {
+                jsPsych.data.reset();
+            })
+            .fail(function() {
+                alert('A problem occurred while writing to the database. Please contact the researcher for more information.')
+                window.location.href = '/';
+            })
         if (debug) {
             console.log('data saved');
         }
@@ -210,31 +220,31 @@ if (!save_data) {
     save_data = SAVE_DATA;
 }
 
-  var post_trial_gap_last = -1;
+var post_trial_gap_last = -1;
 
-  var post_trial_gap = function() {
-    post_trial = Math.floor( Math.random() * 1000 ) + 500;
+var post_trial_gap = function() {
+    post_trial = Math.floor(Math.random() * 1000) + 500;
     post_trial_gap_last = post_trial;
     return post_trial;
-  }
+}
 
-  var video_files_ids = [0, 1, 2, 3, 4, 5];
-  video_files_ids = shuffle(video_files_ids);
+var video_files_ids = [0, 1, 2, 3, 4, 5];
+video_files_ids = shuffle(video_files_ids);
 
-  // populate image ID
-  for (var i = 1; i <= n_images; i++) {
-      for (var j = 1; j <= n_images_repeat; j++) { 
-          image_ids.push(i);
-      }
-  }
-  image_ids = shuffle(image_ids);  // shuffle image IDs
+// populate image ID
+for (var i = 1; i <= n_images; i++) {
+    for (var j = 1; j <= n_images_repeat; j++) {
+        image_ids.push(i);
+    }
+}
+image_ids = shuffle(image_ids); // shuffle image IDs
 
-  /* define instructions block */
-  var instructions_block = {
+/* define instructions block */
+var instructions_block = {
     type: 'html-keyboard-response',
     stimulus: '<div class="jumbotron jumbotron-fluid" style="text-align: left;"><div class="container"><h1 class="display-4">Instructions</h1><p class="lead">In the following images, you will see a traffic situation from the perspective of a cyclist. In each image, a car is approaching you. Sometimes this car is a self-driving car, and sometimes it is a normal car. Your task is to indicate what you, as a cyclist, would do: Brake (press \'B\') or Continue Pedaling (press \'P\'). You will view ' + n_images_per_participant * n_images_repeat + ' images. Observe the scene carefully before pressing the \'B\' or \'P\' key.</p><p class="lead">The window of your browser should be at least 1300px wide and 800px tall. Press \'C\' to proceed to the first practice trial.</p></div></div>',
     choices: ['C'],
-    on_finish: function(data){
+    on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
             worker_code: finish_code,
             browser_name: br_name,
@@ -246,95 +256,95 @@ if (!save_data) {
     }
 };
 
-  /**
-   * Image stimuli.
-   **/
-  // populate arrays of stimuli
-  for (var i = 0; i < n_images * n_images_repeat; i++) {
-      // add image stimulus
-      image_stimuli.push({
-          type: 'image-keyboard-response',
-          stimulus: image_prefix + 'stimuli/image_' + image_ids[i] + '.jpg',
-          choices: ['b', 'p'],
-          // post_trial_gap: post_trial_gap,
-          prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
-          post_trial_gap: post_trial_gap,
-          on_finish: function(data){
-              jsPsych.data.addDataToLastTrial({
-                  post_trial_gap: post_trial_gap_last,
-                  worker_code: finish_code
-              });
-          }
-      });  
-  }
+/**
+ * Image stimuli.
+ **/
+// populate arrays of stimuli
+for (var i = 0; i < n_images * n_images_repeat; i++) {
+    // add image stimulus
+    image_stimuli.push({
+        type: 'image-keyboard-response',
+        stimulus: image_prefix + 'stimuli/image_' + image_ids[i] + '.jpg',
+        choices: ['b', 'p'],
+        // post_trial_gap: post_trial_gap,
+        prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
+        post_trial_gap: post_trial_gap,
+        on_finish: function(data) {
+            jsPsych.data.addDataToLastTrial({
+                post_trial_gap: post_trial_gap_last,
+                worker_code: finish_code
+            });
+        }
+    });
+}
 
 // blocks with questions
-q_blocks.push({  // A driver was visible in the car
+q_blocks.push({ // A driver was visible in the car
     type: 'html-keyboard-response',
     stimulus: '<p>A driver was visible in the car. Press \'T\' for True or \'F\' for False.</p>',
     choices: ['T', 'F'],
     post_trial_gap: post_trial_gap,
-    on_finish: function(data){
+    on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
             post_trial_gap: post_trial_gap_last,
             worker_code: finish_code
         });
     }
 });
-q_blocks.push({  // The windows of the car were blinded
+q_blocks.push({ // The windows of the car were blinded
     type: 'html-keyboard-response',
     stimulus: '<p>The windows of the car were blinded. Press \'T\' for True or \'F\' for False.</p>',
     choices: ['T', 'F'],
     post_trial_gap: post_trial_gap,
-    on_finish: function(data){
+    on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
             post_trial_gap: post_trial_gap_last,
             worker_code: finish_code
         });
     }
 });
-q_blocks.push({  // There was a message ‘GO’ on the roof
+q_blocks.push({ // There was a message ‘GO’ on the roof
     type: 'html-keyboard-response',
     stimulus: '<p>The car was driving automatically. Press \'T\' for True or \'F\' for False.</p>',
     choices: ['T', 'F'],
     post_trial_gap: post_trial_gap,
-    on_finish: function(data){
+    on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
             post_trial_gap: post_trial_gap_last,
             worker_code: finish_code
         });
     }
 });
-q_blocks.push({  // There was a message ‘GO’ on the roof
+q_blocks.push({ // There was a message ‘GO’ on the roof
     type: 'html-keyboard-response',
     stimulus: '<p>There was a message \'GO\' on the roof. Press \'T\' for True or \'F\' for False.</p>',
     choices: ['T', 'F'],
     post_trial_gap: post_trial_gap,
-    on_finish: function(data){
+    on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
             post_trial_gap: post_trial_gap_last,
             worker_code: finish_code
         });
     }
 });
-q_blocks.push({  // There were signs on the side of the car
+q_blocks.push({ // There were signs on the side of the car
     type: 'html-keyboard-response',
     stimulus: '<p>There was a sticker and sensor on the car. Press \'T\' for True or \'F\' for False.</p>',
     choices: ['T', 'F'],
     post_trial_gap: post_trial_gap,
-    on_finish: function(data){
+    on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
             post_trial_gap: post_trial_gap_last,
             worker_code: finish_code
         });
     }
 });
-q_blocks.push({  // The car was driving automatically
+q_blocks.push({ // The car was driving automatically
     type: 'html-keyboard-response',
     stimulus: '<p>The situation was dangerous for me as a cyclist. Press \'1\' for Not dangerous at all, \'2\' for A little dangerous, \'3\' for Moderately dangerous, (4) for Very dangerous, and (5) for Extremely dangerous.</p>',
     choices: ['1', '2', '3', '4', '5'],
     post_trial_gap: post_trial_gap,
-    on_finish: function(data){
+    on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
             post_trial_gap: post_trial_gap_last,
             worker_code: finish_code
@@ -350,7 +360,7 @@ var slider_block = {
     require_movement: true,
     slider_width: 1000,
     post_trial_gap: post_trial_gap,
-    on_finish: function(data){
+    on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
             post_trial_gap: post_trial_gap_last,
         });
@@ -361,7 +371,7 @@ var slider_block = {
 for (var i = 1; i <= n_zoom; i++) {
     zoom_ids.push(i);
 }
-zoom_ids = shuffle(zoom_ids);  // shuffle image IDs
+zoom_ids = shuffle(zoom_ids); // shuffle image IDs
 
 // add questions in the end
 for (var i = 0; i < zoom_ids.length; i++) {
@@ -369,7 +379,7 @@ for (var i = 0; i < zoom_ids.length; i++) {
         type: 'survey-html-form',
         preamble: '',
         html: '<div class="row"><div class="col-md-6"><img src="' + image_prefix + 'zoom/zoom_' + zoom_ids[i] + '.jpg" ' + ' style="width: 100%"/></div><div class="col-md-6"><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q0"><strong>1. Based on the <u>car’s signs, windows, and (absence of a) driver</u>, how confusing is the situation for you as a cyclist?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q0-0"><input type="radio" name="q0" id="q0-0" value="1"> Not confusing at all </label></div><div class="radio"><label for="q0-1"><input type="radio" name="q0" id="q0-1" value="2"> A little confusing </label></div><div class="radio"><label for="q0-2"><input type="radio" name="q0" id="q0-2" value="3" checked="checked"> Moderately confusing </label></div><div class="radio"><label for="q0-3"><input type="radio" name="q0" id="q0-3" value="4"> Very confusing </label></div><div class="radio"><label for="q0-4"><input type="radio" name="q0" id="q0-4" value="5"> Extremely confusing </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q1"><strong>2. Explain your answer to question 1</strong></label></div><div class="col-md-6" style="text-align: left"><input id="q1" name="q1" type="text" placeholder="Required" class="form-control input-md" required=""> <span class="form-text text-muted" style="font-size: 13px;">Describe why you selected the answer in question 1</span> </div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q2"><strong>3. Based on the <u>car’s signs, windows, and (absence of a) driver</u>, how do you think the car is driving?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q2-0"><input type="radio" name="q2" id="q2-0" value="1"> The car is driving manually </label></div><div class="radio"><label for="q2-1"><input type="radio" name="q2" id="q2-1" value="2" checked="checked"> It is unclear whether the car is driving manually or automatically </label></div><div class="radio"><label for="q2-2"><input type="radio" name="q2" id="q2-2" value="3"> The car is driving automatically </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q3"><strong>4. Overall, how dangerous is the situation for you as a cyclist?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q3-0"><input type="radio" name="q3" id="q3-0" value="1"> Not dangerous at all </label></div><div class="radio"><label for="q3-1"><input type="radio" name="q3" id="q3-1" value="2"> A little dangerous </label></div><div class="radio"><label for="q3-2"><input type="radio" name="q3" id="q3-2" value="3" checked="checked"> Moderately dangerous </label></div><div class="radio"><label for="q3-3"><input type="radio" name="q3" id="q3-3" value="4"> Very dangerous </label></div><div class="radio"><label for="q3-4"><input type="radio" name="q3" id="q3-4" value="5"> Extremely dangerous </label></div></div></div></div></div>',
-        on_finish: function(data){
+        on_finish: function(data) {
             jsPsych.data.addDataToLastTrial({
                 worker_code: finish_code,
                 zoom_id: zoom_ids[i]
@@ -396,10 +406,10 @@ for (var i = 0; i < video_files_ids.length; i++) {
         sources: [video_files[video_files_ids[i]]],
         autoplay: true,
         choices: jsPsych.NO_KEYS,
-        on_finish: function(data){
-          if (debug) {
-              console.log('video finished');
-          }
+        on_finish: function(data) {
+            if (debug) {
+                console.log('video finished');
+            }
         }
     });
 }
@@ -410,7 +420,7 @@ var continue_block = {
     stimulus: '<p>Press \'C\' to continue to the next image.</p>',
     choices: ['C'],
     post_trial_gap: post_trial_gap,
-    on_finish: function(data){
+    on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
             post_trial_gap: post_trial_gap_last,
         });
@@ -422,10 +432,10 @@ var continue_first_block = {
     type: 'html-keyboard-response',
     stimulus: '<p>Press \'C\' to continue to the first image.</p>',
     choices: ['C'],
-    on_load: function(data){
-      if (debug) {
-          console.log('continue started');
-      }
+    on_load: function(data) {
+        if (debug) {
+            console.log('continue started');
+        }
     }
 };
 
@@ -445,41 +455,41 @@ var save_data_block = {
 };
 
 // Questions for injections
-questions_inject_locations = shuffle(image_ids);  // assign image ids and shuffle
-questions_inject_locations = questions_inject_locations.slice(0, questions_inject.length);  // trim to the number of injections
+questions_inject_locations = shuffle(image_ids); // assign image ids and shuffle
+questions_inject_locations = questions_inject_locations.slice(0, questions_inject.length); // trim to the number of injections
 for (var i = 0; i < questions_inject.length; i++) {
     questions_inject_blocks.push({
         type: 'html-keyboard-response',
         stimulus: '<p>' + questions_inject[i] + ' Press \'T\' for True or \'F\' for False.</p>',
         choices: ['T', 'F'],
         post_trial_gap: post_trial_gap,
-        on_finish: function(data){
+        on_finish: function(data) {
             jsPsych.data.addDataToLastTrial({
                 post_trial_gap: post_trial_gap_last,
             });
         }
     });
 }
-questions_inject_blocks = shuffle(questions_inject_blocks);  // shuffle questions for injection
+questions_inject_blocks = shuffle(questions_inject_blocks); // shuffle questions for injection
 
 /**
  * Create experiment timeline array
  **/
-  var timeline = [];
-  var video_blocks_count = 0; // counter for video examples shown
-  var between_blocks_count = 0;  // counter of shown between blocks
-  var questions_inject_count = 0;  // counter of shown injections
-  timeline.push(questions_inject_blocks[questions_inject_count]);
-  timeline.push(questions_end_blocks[0]);
-  timeline.push(slider_block);
-  timeline.push(instructions_block);
-  timeline.push(video_blocks[video_blocks_count]);
-  timeline.push(continue_first_block);
-  // save data
-  timeline.push(save_data_block);
-  video_blocks_count++;  // increase counter of videos shown
-  questions_inject_count;
-  for (var i = 0; i <= n_images_per_participant * n_images_repeat; i++) {
+var timeline = [];
+var video_blocks_count = 0; // counter for video examples shown
+var between_blocks_count = 0; // counter of shown between blocks
+var questions_inject_count = 0; // counter of shown injections
+timeline.push(questions_inject_blocks[questions_inject_count]);
+timeline.push(questions_end_blocks[0]);
+timeline.push(slider_block);
+timeline.push(instructions_block);
+timeline.push(video_blocks[video_blocks_count]);
+timeline.push(continue_first_block);
+// save data
+timeline.push(save_data_block);
+video_blocks_count++; // increase counter of videos shown
+questions_inject_count;
+for (var i = 0; i <= n_images_per_participant * n_images_repeat; i++) {
     // check if the last image was reached
     if (i >= n_images_per_participant * n_images_repeat) {
         break;
@@ -489,23 +499,23 @@ questions_inject_blocks = shuffle(questions_inject_blocks);  // shuffle question
     if (i != 0 && (i + 1) % n_images_break != 1) {
         timeline.push(continue_block);
     }
-    timeline.push(image_stimuli[i]);  // page with the stimulus
+    timeline.push(image_stimuli[i]); // page with the stimulus
     // questions
-    q_blocks = shuffle(q_blocks);  // shuffle questions
+    q_blocks = shuffle(q_blocks); // shuffle questions
     // check if need to add injection
     var index_injection = 0;
-    if (questions_inject_locations.includes(i)) {  // image id is saved for injection
-        index_injection = getRandomInt(0, q_blocks.length - 1);  // decide in which position with questions to show
+    if (questions_inject_locations.includes(i)) { // image id is saved for injection
+        index_injection = getRandomInt(0, q_blocks.length - 1); // decide in which position with questions to show
     }
     // pages with questions
     for (var j = 0; j < q_blocks.length; j++) {
-      if (questions_inject_locations.includes(i) && j == index_injection) {  // image id is saved for injection
-          timeline.push(questions_inject_blocks[questions_inject_count]);  // page with questions
-          questions_inject_count++;
-      }
-      timeline.push(q_blocks[j]);
+        if (questions_inject_locations.includes(i) && j == index_injection) { // image id is saved for injection
+            timeline.push(questions_inject_blocks[questions_inject_count]); // page with questions
+            questions_inject_count++;
+        }
+        timeline.push(q_blocks[j]);
     }
-    timeline.push(save_data_block);  // save data
+    timeline.push(save_data_block); // save data
     // don't add the between block after the last trial
     if ((i + 1) % n_images_break == 0 && i != 0 && i != n_images_per_participant * n_images_repeat - 1 && i < n_images_no_break_after - 1) {
         if (debug) {
@@ -516,19 +526,19 @@ questions_inject_blocks = shuffle(questions_inject_blocks);  // shuffle question
         between_blocks_count++;
         // video example block 
         timeline.push(video_blocks[video_blocks_count]);
-        video_blocks_count++;  // increase counter of videos shown
+        video_blocks_count++; // increase counter of videos shown
     }
-  }
+}
 
-  // final questions
-  timeline.push(continue_block_end);
-  questions_end_blocks = shuffle(questions_end_blocks);  // shuffle question blocks
-  for (var i = 0; i < questions_end_blocks.length; i++) {
-      timeline.push(questions_end_blocks[i]);  // page with the stimulus
-  }
-  timeline.push(save_data_block);  // save data
+// final questions
+timeline.push(continue_block_end);
+questions_end_blocks = shuffle(questions_end_blocks); // shuffle question blocks
+for (var i = 0; i < questions_end_blocks.length; i++) {
+    timeline.push(questions_end_blocks[i]); // page with the stimulus
+}
+timeline.push(save_data_block); // save data
 
-  if (debug) {
+if (debug) {
     console.log('image_ids', image_ids);
     console.log('zoom_ids', zoom_ids);
     console.log('image_stimuli', image_stimuli);
@@ -540,14 +550,14 @@ questions_inject_blocks = shuffle(questions_inject_blocks);  // shuffle question
     console.log('questions_inject', questions_inject);
     console.log('questions_inject_locations', questions_inject_locations);
     console.log('questions_inject_blocks', questions_inject_blocks);
-  }
+}
 
-  /* Start the experiment */
-  var images_to_preload = [];
-  for (var i = 0; i < zoom_ids.length; i++) {
-      images_to_preload.push(image_prefix + 'zoom/zoom_' + zoom_ids[i] + '.jpg');  // page with the stimulus
-  }
-  jsPsych.init({
+/* Start the experiment */
+var images_to_preload = [];
+for (var i = 0; i < zoom_ids.length; i++) {
+    images_to_preload.push(image_prefix + 'zoom/zoom_' + zoom_ids[i] + '.jpg'); // page with the stimulus
+}
+jsPsych.init({
     show_preload_progress_bar: true,
     preload_images: images_to_preload,
     timeline: timeline,
@@ -555,9 +565,8 @@ questions_inject_blocks = shuffle(questions_inject_blocks);  // shuffle question
     auto_update_progress_bar: false,
     max_load_time: 3000000,
     on_finish: function() {
-      window.location.href = 'finish?work=' + finish_code;
+        window.location.href = 'finish?work=' + finish_code;
     }
-  });
-
+});
 </script>
 </html>
