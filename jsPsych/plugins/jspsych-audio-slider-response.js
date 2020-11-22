@@ -25,7 +25,7 @@ jsPsych.plugins['audio-slider-response'] = (function() {
         default: 100,
         description: 'Sets the maximum value of the slider',
       },
-			start: {
+			slider_start: {
 				type: jsPsych.plugins.parameterType.INT,
 				pretty_name: 'Slider starting value',
 				default: 50,
@@ -44,12 +44,24 @@ jsPsych.plugins['audio-slider-response'] = (function() {
         array: true,
         description: 'Labels of the slider.',
       },
+      slider_width: {
+        type: jsPsych.plugins.parameterType.INT,
+        pretty_name:'Slider width',
+        default: null,
+        description: 'Width of the slider in pixels.'
+      },
       button_label: {
         type: jsPsych.plugins.parameterType.STRING,
         pretty_name: 'Button label',
         default: 'Continue',
         array: false,
         description: 'Label of the button to advance.'
+      },
+      require_movement: {
+        type: jsPsych.plugins.parameterType.BOOL,
+        pretty_name: 'Require movement',
+        default: false,
+        description: 'If true, the participant will have to move the slider before continuing.'
       },
       prompt: {
         type: jsPsych.plugins.parameterType.STRING,
@@ -69,6 +81,13 @@ jsPsych.plugins['audio-slider-response'] = (function() {
         default: true,
         description: 'If true, trial will end when user makes a response.'
       },
+      response_allowed_while_playing: {
+        type: jsPsych.plugins.parameterType.BOOL,
+        pretty_name: 'Response allowed while playing',
+        default: true,
+        description: 'If true, then responses are allowed while the audio is playing. '+
+          'If false, then the audio must finish playing before a response is accepted.'
+      }
     }
   }
 
@@ -88,18 +107,32 @@ jsPsych.plugins['audio-slider-response'] = (function() {
     // set up end event if trial needs it
     if(trial.trial_ends_after_audio){
       if(context !== null){
-        source.onended = function() {
-          end_trial();
-        }
+        source.addEventListener('ended', end_trial);
       } else {
         audio.addEventListener('ended', end_trial);
       }
     }
 
+    // enable slider after audio ends if necessary
+    if ((!trial.response_allowed_while_playing) & (!trial.trial_ends_after_audio)) {
+      if (context !== null) {
+        source.addEventListener('ended', enable_slider);
+      } else {
+        audio.addEventListener('ended', enable_slider);
+      }
+    }
+
     var html = '<div id="jspsych-audio-slider-response-wrapper" style="margin: 100px 0px;">';
-  	html += '<div class="jspsych-audio-slider-response-container" style="position:relative;">';
-    html += '<input type="range" value="'+trial.start+'" min="'+trial.min+'" max="'+trial.max+'" step="'+trial.step+'" style="width: 100%;" id="jspsych-audio-slider-response-response"></input>';
-    html += '<div>'
+  	html += '<div class="jspsych-audio-slider-response-container" style="position:relative; margin: 0 auto 3em auto; ';
+    if(trial.slider_width !== null){
+      html += 'width:'+trial.slider_width+'px;';
+    }
+    html += '">';
+    html += '<input type="range" value="'+trial.slider_start+'" min="'+trial.min+'" max="'+trial.max+'" step="'+trial.step+'" style="width: 100%;" id="jspsych-audio-slider-response-response"';
+    if (!trial.response_allowed_while_playing) {
+      html += ' disabled';
+    }
+    html += '></input><div>'
     for(var j=0; j < trial.labels.length; j++){
       var width = 100/(trial.labels.length-1);
       var left_offset = (j * (100 /(trial.labels.length - 1))) - (width/2);
@@ -116,7 +149,11 @@ jsPsych.plugins['audio-slider-response'] = (function() {
 		}
 
     // add submit button
-    html += '<button id="jspsych-audio-slider-response-next" class="jspsych-btn">'+trial.button_label+'</button>';
+    var next_disabled_attribute = "";
+    if (trial.require_movement | !trial.response_allowed_while_playing) {
+      next_disabled_attribute = "disabled";
+    }
+    html += '<button id="jspsych-audio-slider-response-next" class="jspsych-btn" '+ next_disabled_attribute + '>'+trial.button_label+'</button>';
 
     display_element.innerHTML = html;
 
@@ -124,6 +161,17 @@ jsPsych.plugins['audio-slider-response'] = (function() {
       rt: null,
       response: null
     };
+
+    if (!trial.response_allowed_while_playing) {
+      display_element.querySelector('#jspsych-audio-slider-response-response').disabled = true;
+      display_element.querySelector('#jspsych-audio-slider-response-next').disabled = true;
+    }
+
+    if(trial.require_movement){
+      display_element.querySelector('#jspsych-audio-slider-response-response').addEventListener('click', function(){
+        display_element.querySelector('#jspsych-audio-slider-response-next').disabled = false;
+      });
+    }
 
     display_element.querySelector('#jspsych-audio-slider-response-next').addEventListener('click', function() {
       // measure response time
@@ -134,7 +182,7 @@ jsPsych.plugins['audio-slider-response'] = (function() {
 				rt = Math.round((endTime - startTime) * 1000);
 			}
       response.rt = rt;
-      response.response = display_element.querySelector('#jspsych-audio-slider-response-response').value;
+      response.response = display_element.querySelector('#jspsych-audio-slider-response-response').valueAsNumber;
 
       if(trial.response_ends_trial){
         end_trial();
@@ -146,20 +194,26 @@ jsPsych.plugins['audio-slider-response'] = (function() {
 
     function end_trial(){
 
+      // kill any remaining setTimeout handlers
       jsPsych.pluginAPI.clearAllTimeouts();
 
+      // stop the audio file if it is playing
+			// remove end event listeners if they exist
 			if(context !== null){
         source.stop();
-        source.onended = function() { }
+        source.removeEventListener('ended', end_trial);
+        source.removeEventListener('ended', enable_slider);
       } else {
         audio.pause();
         audio.removeEventListener('ended', end_trial);
+        audio.removeEventListener('ended', enable_slider);
       }
 
       // save data
       var trialdata = {
         "rt": response.rt,
-				"stimulus": trial.stimulus,
+        "stimulus": trial.stimulus,
+        "slider_start": trial.slider_start,
         "response": response.response
       };
 
@@ -167,6 +221,14 @@ jsPsych.plugins['audio-slider-response'] = (function() {
 
       // next trial
       jsPsych.finishTrial(trialdata);
+    }
+
+    // function to enable slider after audio ends
+    function enable_slider() {
+      document.querySelector('#jspsych-audio-slider-response-response').disabled = false;
+      if (!trial.require_movement) {
+        document.querySelector('#jspsych-audio-slider-response-next').disabled = false;
+      }
     }
 
 		var startTime = performance.now();
