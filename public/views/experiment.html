@@ -533,8 +533,13 @@ questions_inject_blocks = shuffle(questions_inject_blocks);  // shuffle question
   }
 
   /* Start the experiment */
+  var images_to_preload = [];
+  for (var i = 0; i < zoom_ids.length; i++) {
+      images_to_preload.push(image_prefix + 'zoom/zoom_' + zoom_ids[i] + '.jpg');  // page with the stimulus
+  }
   jsPsych.init({
     show_preload_progress_bar: true,
+    preload_images: images_to_preload,
     timeline: timeline,
     show_progress_bar: false,
     auto_update_progress_bar: false,
