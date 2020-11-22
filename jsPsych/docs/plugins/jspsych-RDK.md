@@ -1,4 +1,4 @@
-# jspsych-rdk plugin
+# jspsych-RDK plugin
 
 This plugin displays a Random Dot Kinematogram (RDK) and allows the subject to report the primary direction of motion by pressing a key on the keyboard. The stimulus can be displayed until a keyboard response is given or until a certain duration of time has passed. The RDK is fully customizable (see documentation below) and can display multiple apertures at the same time, each with its own parameters.
 
@@ -59,7 +59,8 @@ Parameters can be left unspecified if the default value is acceptable.
 
 ## Data Generated
 
-In addition to the [default data collected by all plugins](overview#data-collected-by-plugins), this plugin collects all parameter data described above and the following data for each trial.
+In addition to the default data collected by all plugins, this plugin collects all parameter data described above and the following data for each trial.
+
 
 |Name|Type|Value|
 |----|----|-----|
@@ -92,7 +93,7 @@ var trial_left = {
 
 ```javascript
 var test_block = {
-	type: "rdk", 
+	type: "RDK", 
 	post_trial_gap: 0,
 	number_of_dots: 200,
 	RDK_type: 3,
@@ -107,7 +108,7 @@ var test_block = {
 
 ```javascript
 var test_block = {
-    type: "rdk", 
+    type: "RDK", 
     number_of_apertures: 3, //This needs to be set if more than one aperture
     trial_duration: 10000,
     RDK_type: 3, //Applied to all apertures if only one value

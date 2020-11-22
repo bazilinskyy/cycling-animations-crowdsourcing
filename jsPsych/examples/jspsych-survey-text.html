@@ -4,7 +4,7 @@
 
     <script src="../jspsych.js"></script>
     <script src="../plugins/jspsych-survey-text.js"></script>
-    <link rel="stylesheet" href="../css/jspsych.css">
+    <link rel="stylesheet" href="../css/jspsych.css"></link>
   </head>
   <body></body>
   <script>
@@ -12,16 +12,15 @@
   var survey_page1 = {
     type: 'survey-text',
     questions: [
-      {prompt: 'How old are you?', columns: 3, required: true, name: 'Age'},
-      {prompt: 'Where were you born?', placeholder: 'City, State/Province, Country', columns: 50, name: 'BirthLocation'}
-    ],
-    randomize_question_order: true
+      {prompt: 'How old are you?', columns: 3, required: true},
+      {prompt: 'Where were you born?', value: 'location', columns: 50}
+    ]
   };
 
   var survey_page2 = {
     type: 'survey-text',
     questions: [
-      {prompt: 'Tell me about your day', placeholder: 'How did it start?', rows:10, columns: 50}
+      {prompt: 'Tell me about your day', value: 'How did it start?', rows:10, columns: 50}
     ]
   }
 
