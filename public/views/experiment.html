@@ -347,6 +347,7 @@ var slider_block = {
     type: 'html-slider-response',
     stimulus: '<p style=\'width: 1000px\'>The situation was dangerous for me as a cyclist.</p>',
     labels: ['not dangerous at all', 'a little dangerous', 'moderately dangerous', 'very dangerous', 'extremely dangerous'],
+    require_movement: true,
     post_trial_gap: post_trial_gap,
     on_finish: function(data){
         jsPsych.data.addDataToLastTrial({
