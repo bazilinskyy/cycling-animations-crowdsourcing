@@ -362,8 +362,7 @@ for (var i = 1; i <= n_zoom; i++) {
 zoom_ids = shuffle(zoom_ids);  // shuffle image IDs
 
 // add questions in the end
-questions_end = shuffle(questions_end);  // shuffle questions
-for (var i = 0; i <= questions_end.length; i++) {
+for (var i = 0; i <= zoom_ids.length; i++) {
     questions_end_blocks.push({
         type: 'survey-html-form',
         preamble: '',
