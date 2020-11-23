@@ -271,7 +271,7 @@ for (var i = 0; i < n_images * n_images_repeat; i++) {
         stimulus: image_prefix + 'stimuli/image_' + image_ids[i] + '.jpg',
         choices: ['b', 'p'],
         // post_trial_gap: post_trial_gap,
-        prompt: "<p><strong>Imagine that you are the cyclist.</strong> Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
+        prompt: "<p>Imagine that you are the cyclist. Press \'B\' if you would brake, press \'P\' if you would continue pedaling.</p>",
         post_trial_gap: post_trial_gap,
         on_finish: function(data) {
             jsPsych.data.get().addToLast({
