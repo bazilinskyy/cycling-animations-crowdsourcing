@@ -155,17 +155,17 @@ var getUrlParameter = function getUrlParameter(sParam) {
 };
 
 /**
- * Get finish code in the given format.
+ * Get code in the given format.
  */
-function getFinishCode() {
+function getWorkerCode() {
     var timestamp = window.performance.timing.navigationStart + window.performance.now();
     var current_time = Math.round(timestamp);
     var random_num = getRandomInt(1, 10000);
-    finish_code = 'Q9' + current_time + 'RS' + random_num + '4N';
-    return finish_code;
+    worker_code = 'Q9' + current_time + 'RS' + random_num + '4N';
+    return worker_code;
 }
 
-var finish_code = getFinishCode();
+var worker_code = getWorkerCode();
 
 /**
  * Shuffles array in place.
@@ -190,7 +190,7 @@ function saveData() {
     if (save_data) {
         // add worker ID 
         jsPsych.data.get().addToLast({
-            worker_code: finish_code
+            worker_code: worker_code
         });
 
         if (debug) {
@@ -563,7 +563,7 @@ jsPsych.init({
     auto_update_progress_bar: false,
     max_load_time: 3000000,
     on_finish: function() {
-        window.location.href = 'finish?work=' + finish_code;
+        window.location.href = 'finish?work=' + worker_code;
     }
 });
 </script>
