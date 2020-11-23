@@ -347,6 +347,22 @@ q_blocks.push({ // There were signs on the side of the car
 //     }
 // });
 
+var scale_tf = [
+  "True", 
+  "False", 
+];
+
+var likert_page = {
+  type: 'survey-likert',
+  questions: [
+    {prompt: "I like vegetables.", name: 'Vegetables', labels: scale_tf},
+    {prompt: "I like fruit.", name: 'Fruit', labels: scale_tf},
+    {prompt: "I like meat.", name: 'Meat', labels: scale_tf},
+    {prompt: "I like dairy.", name: 'Dairy', labels: scale_tf}
+  ],
+  randomize_question_order: true
+};
+
 // slider block
 var slider_block = {
     type: 'html-slider-response',
@@ -476,6 +492,7 @@ var questions_inject_count = 0; // counter of shown injections
 // timeline.push(questions_inject_blocks[questions_inject_count]);
 // timeline.push(questions_end_blocks[0]);
 // timeline.push(slider_block);
+timeline.push(likert_page);
 timeline.push(instructions_block);
 timeline.push(video_blocks[video_blocks_count]);
 timeline.push(continue_first_block);
