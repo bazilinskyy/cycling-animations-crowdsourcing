@@ -401,14 +401,12 @@ var save_data_block = {
 var timeline = [];
 var video_blocks_count = 0; // counter for video examples shown
 var between_blocks_count = 0; // counter of shown between blocks
-var questions_inject_count = 0; // counter of shown injections
 timeline.push(instructions_block);
 timeline.push(video_blocks[video_blocks_count]);
 timeline.push(continue_first_block);
 // save data
 timeline.push(save_data_block);
 video_blocks_count++; // increase counter of videos shown
-questions_inject_count;
 for (var i = 0; i <= n_images_per_participant * n_images_repeat; i++) {
     // check if the last image was reached
     if (i >= n_images_per_participant * n_images_repeat) {
