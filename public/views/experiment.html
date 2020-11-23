@@ -303,18 +303,18 @@ q_blocks.push({ // The windows of the car were blinded
         });
     }
 });
-q_blocks.push({ // There was a message ‘GO’ on the roof
-    type: 'html-keyboard-response',
-    stimulus: '<p>The car was driving automatically. Press \'T\' for True or \'F\' for False.</p>',
-    choices: ['T', 'F'],
-    post_trial_gap: post_trial_gap,
-    on_finish: function(data) {
-        jsPsych.data.addDataToLastTrial({
-            post_trial_gap: post_trial_gap_last,
-            worker_code: finish_code
-        });
-    }
-});
+// q_blocks.push({ // There was a message ‘GO’ on the roof
+//     type: 'html-keyboard-response',
+//     stimulus: '<p>The car was driving automatically. Press \'T\' for True or \'F\' for False.</p>',
+//     choices: ['T', 'F'],
+//     post_trial_gap: post_trial_gap,
+//     on_finish: function(data) {
+//         jsPsych.data.addDataToLastTrial({
+//             post_trial_gap: post_trial_gap_last,
+//             worker_code: finish_code
+//         });
+//     }
+// });
 q_blocks.push({ // There was a message ‘GO’ on the roof
     type: 'html-keyboard-response',
     stimulus: '<p>There was a message \'GO\' on the roof. Press \'T\' for True or \'F\' for False.</p>',
@@ -339,18 +339,18 @@ q_blocks.push({ // There were signs on the side of the car
         });
     }
 });
-q_blocks.push({ // The car was driving automatically
-    type: 'html-keyboard-response',
-    stimulus: '<p>The situation was dangerous for me as a cyclist. Press \'1\' for Not dangerous at all, \'2\' for A little dangerous, \'3\' for Moderately dangerous, (4) for Very dangerous, and (5) for Extremely dangerous.</p>',
-    choices: ['1', '2', '3', '4', '5'],
-    post_trial_gap: post_trial_gap,
-    on_finish: function(data) {
-        jsPsych.data.addDataToLastTrial({
-            post_trial_gap: post_trial_gap_last,
-            worker_code: finish_code
-        });
-    }
-});
+// q_blocks.push({ // The car was driving automatically
+//     type: 'html-keyboard-response',
+//     stimulus: '<p>The situation was dangerous for me as a cyclist. Press \'1\' for Not dangerous at all, \'2\' for A little dangerous, \'3\' for Moderately dangerous, \'4\' for Very dangerous, and \'5\' for Extremely dangerous.</p>',
+//     choices: ['1', '2', '3', '4', '5'],
+//     post_trial_gap: post_trial_gap,
+//     on_finish: function(data) {
+//         jsPsych.data.addDataToLastTrial({
+//             post_trial_gap: post_trial_gap_last,
+//             worker_code: finish_code
+//         });
+//     }
+// });
 
 // slider block
 var slider_block = {
@@ -378,7 +378,7 @@ for (var i = 0; i < zoom_ids.length; i++) {
     questions_end_blocks.push({
         type: 'survey-html-form',
         preamble: '',
-        html: '<div class="row"><div class="col-md-6"><img src="' + image_prefix + 'zoom/zoom_' + zoom_ids[i] + '.jpg" ' + ' style="width: 100%"/></div><div class="col-md-6"><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q0"><strong>1. Based on the <u>car’s signs, windows, and (absence of a) driver</u>, how confusing is the situation for you as a cyclist?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q0-0"><input type="radio" name="q0" id="q0-0" value="1"> Not confusing at all </label></div><div class="radio"><label for="q0-1"><input type="radio" name="q0" id="q0-1" value="2"> A little confusing </label></div><div class="radio"><label for="q0-2"><input type="radio" name="q0" id="q0-2" value="3" checked="checked"> Moderately confusing </label></div><div class="radio"><label for="q0-3"><input type="radio" name="q0" id="q0-3" value="4"> Very confusing </label></div><div class="radio"><label for="q0-4"><input type="radio" name="q0" id="q0-4" value="5"> Extremely confusing </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q1"><strong>2. Explain your answer to question 1</strong></label></div><div class="col-md-6" style="text-align: left"><input id="q1" name="q1" type="text" placeholder="Required" class="form-control input-md" required=""> <span class="form-text text-muted" style="font-size: 13px;">Describe why you selected the answer in question 1</span> </div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q2"><strong>3. Based on the <u>car’s signs, windows, and (absence of a) driver</u>, how do you think the car is driving?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q2-0"><input type="radio" name="q2" id="q2-0" value="1"> The car is driving manually </label></div><div class="radio"><label for="q2-1"><input type="radio" name="q2" id="q2-1" value="2" checked="checked"> It is unclear whether the car is driving manually or automatically </label></div><div class="radio"><label for="q2-2"><input type="radio" name="q2" id="q2-2" value="3"> The car is driving automatically </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q3"><strong>4. Overall, how dangerous is the situation for you as a cyclist?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q3-0"><input type="radio" name="q3" id="q3-0" value="1"> Not dangerous at all </label></div><div class="radio"><label for="q3-1"><input type="radio" name="q3" id="q3-1" value="2"> A little dangerous </label></div><div class="radio"><label for="q3-2"><input type="radio" name="q3" id="q3-2" value="3" checked="checked"> Moderately dangerous </label></div><div class="radio"><label for="q3-3"><input type="radio" name="q3" id="q3-3" value="4"> Very dangerous </label></div><div class="radio"><label for="q3-4"><input type="radio" name="q3" id="q3-4" value="5"> Extremely dangerous </label></div></div></div></div></div>',
+        html: '<div class="row"><div class="col-md-6"><img src="' + image_prefix + 'zoom/zoom_' + zoom_ids[i] + '.jpg" ' + ' style="width: 100%"/></div><div class="col-md-6"><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q0"><strong>1. Based on the <u>car’s signs, windows, and (absence of a) driver</u>, how confusing is the situation for you as a cyclist?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q0-0"><input type="radio" name="q0" id="q0-0" value="1"> Not confusing at all </label></div><div class="radio"><label for="q0-1"><input type="radio" name="q0" id="q0-1" value="2"> A little confusing </label></div><div class="radio"><label for="q0-2"><input type="radio" name="q0" id="q0-2" value="3" checked="checked"> Moderately confusing </label></div><div class="radio"><label for="q0-3"><input type="radio" name="q0" id="q0-3" value="4"> Very confusing </label></div><div class="radio"><label for="q0-4"><input type="radio" name="q0" id="q0-4" value="5"> Extremely confusing </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q1"><strong>2. Explain your answer to Question 1</strong></label></div><div class="col-md-6" style="text-align: left"><input id="q1" name="q1" type="text" placeholder="Required" class="form-control input-md" required=""> <span class="form-text text-muted" style="font-size: 13px;">Describe why you selected the answer in Question 1</span> </div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q2"><strong>3. Based on the <u>car’s signs, windows, and (absence of a) driver</u>, how do you think the car is driving?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q2-0"><input type="radio" name="q2" id="q2-0" value="1"> The car is driving manually </label></div><div class="radio"><label for="q2-1"><input type="radio" name="q2" id="q2-1" value="2" checked="checked"> It is unclear whether the car is driving manually or automatically </label></div><div class="radio"><label for="q2-2"><input type="radio" name="q2" id="q2-2" value="3"> The car is driving automatically </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q3"><strong>4. Overall, how dangerous is the situation for you as a cyclist?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q3-0"><input type="radio" name="q3" id="q3-0" value="1"> Not dangerous at all </label></div><div class="radio"><label for="q3-1"><input type="radio" name="q3" id="q3-1" value="2"> A little dangerous </label></div><div class="radio"><label for="q3-2"><input type="radio" name="q3" id="q3-2" value="3" checked="checked"> Moderately dangerous </label></div><div class="radio"><label for="q3-3"><input type="radio" name="q3" id="q3-3" value="4"> Very dangerous </label></div><div class="radio"><label for="q3-4"><input type="radio" name="q3" id="q3-4" value="5"> Extremely dangerous </label></div></div></div></div></div>',
         on_finish: function(data) {
             jsPsych.data.addDataToLastTrial({
                 worker_code: finish_code,
@@ -479,9 +479,9 @@ var timeline = [];
 var video_blocks_count = 0; // counter for video examples shown
 var between_blocks_count = 0; // counter of shown between blocks
 var questions_inject_count = 0; // counter of shown injections
-timeline.push(questions_inject_blocks[questions_inject_count]);
-timeline.push(questions_end_blocks[0]);
-timeline.push(slider_block);
+// timeline.push(questions_inject_blocks[questions_inject_count]);
+// timeline.push(questions_end_blocks[0]);
+// timeline.push(slider_block);
 timeline.push(instructions_block);
 timeline.push(video_blocks[video_blocks_count]);
 timeline.push(continue_first_block);
