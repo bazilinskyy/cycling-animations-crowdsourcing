@@ -282,7 +282,7 @@ for (var i = 0; i < n_images * n_images_repeat; i++) {
 // blocks with questions
 q_blocks.push({ // A driver was visible in the car
     type: 'html-keyboard-response',
-    stimulus: '<p><strong>A driver was visible in the car.</strong> Press \'T\' for True or \'F\' for False.</p>',
+    stimulus: '<p><strong>A driver was visible in the car.</strong></p><p>Press \'T\' for True or \'F\' for False.</p>',
     choices: ['T', 'F'],
     post_trial_gap: post_trial_gap,
     on_finish: function(data) {
@@ -293,7 +293,7 @@ q_blocks.push({ // A driver was visible in the car
 });
 q_blocks.push({ // The windows of the car were blinded
     type: 'html-keyboard-response',
-    stimulus: '<p><strong>The windows of the car were blinded.</strong> Press \'T\' for True or \'F\' for False.</p>',
+    stimulus: '<p><strong>The windows of the car were blinded.</strong></p><p>Press \'T\' for True or \'F\' for False.</p>',
     choices: ['T', 'F'],
     post_trial_gap: post_trial_gap,
     on_finish: function(data) {
@@ -315,7 +315,7 @@ q_blocks.push({ // The windows of the car were blinded
 // });
 q_blocks.push({ // There was a message ‘GO’ on the roof
     type: 'html-keyboard-response',
-    stimulus: '<p><strong>There was a message \'GO\' on the roof.</strong> Press \'T\' for True or \'F\' for False.</p>',
+    stimulus: '<p><strong>There was a message \'GO\' on the roof.</strong></p><p>Press \'T\' for True or \'F\' for False.</p>',
     choices: ['T', 'F'],
     post_trial_gap: post_trial_gap,
     on_finish: function(data) {
@@ -326,7 +326,7 @@ q_blocks.push({ // There was a message ‘GO’ on the roof
 });
 q_blocks.push({ // There were signs on the side of the car
     type: 'html-keyboard-response',
-    stimulus: '<p><strong>There was a sticker and sensor on the car.</strong> Press \'T\' for True or \'F\' for False.</p>',
+    stimulus: '<p><strong>There was a sticker and sensor on the car.</strong></p><p>Press \'T\' for True or \'F\' for False.</p>',
     choices: ['T', 'F'],
     post_trial_gap: post_trial_gap,
     on_finish: function(data) {
