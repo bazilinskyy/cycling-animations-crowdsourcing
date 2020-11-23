@@ -299,6 +299,9 @@ var scale_tf = [
 ];
 
 // add likert questions
+questions_inject_locations = shuffle(image_ids); // assign image ids and shuffle
+questions_inject_locations = questions_inject_locations.slice(0, questions_inject.length); // trim to the number of injections
+questions_inject_locations[0] = 1;
 for (var i = 1; i <= image_ids.length; i++) {
     // array with questions
     var questions = [];
@@ -306,7 +309,7 @@ for (var i = 1; i <= image_ids.length; i++) {
     if (questions_inject_locations.includes(i)) {  // add injected question
         questions = [{prompt: "A driver was visible in the car.", name: 'driver', labels: scale_tf},
                      {prompt: "The windows of the car were blinded.", name: 'windos', labels: scale_tf},
-                     {prompt: "There was a message \'GO\' on the roof.", name: 'go', labels: scale_tf},
+                     {prompt: "There was a message \'GO\' on the car.", name: 'go', labels: scale_tf},
                      {prompt: "There was a sticker and sensor on the car.", name: 'sticker', labels: scale_tf},
                      {prompt: questions_inject[counter_injections], name: 'injection', labels: scale_tf}
                     ]
@@ -314,7 +317,7 @@ for (var i = 1; i <= image_ids.length; i++) {
     } else { // don't add injected question
         questions = [{prompt: "A driver was visible in the car.", name: 'driver', labels: scale_tf},
                      {prompt: "The windows of the car were blinded.", name: 'windos', labels: scale_tf},
-                     {prompt: "There was a message \'GO\' on the roof.", name: 'go', labels: scale_tf},
+                     {prompt: "There was a message \'GO\' on the car.", name: 'go', labels: scale_tf},
                      {prompt: "There was a sticker and sensor on the car.", name: 'sticker', labels: scale_tf}
                     ]
     }
