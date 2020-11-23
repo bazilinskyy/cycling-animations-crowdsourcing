@@ -188,6 +188,11 @@ function shuffle(a) {
 function saveData() {
     // check if data needs to be saved
     if (save_data) {
+        // add worker ID 
+        jsPsych.data.addDataToLastTrial({
+            worker_code: finish_code,
+        });
+
         if (debug) {
             console.log('saving data', jsPsych.data.get().json());
         }
@@ -246,7 +251,6 @@ var instructions_block = {
     choices: ['C'],
     on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
-            worker_code: finish_code,
             browser_name: br_name,
             browser_full_version: br_full_version,
             browser_major_version: br_major_version,
@@ -272,7 +276,6 @@ for (var i = 0; i < n_images * n_images_repeat; i++) {
         on_finish: function(data) {
             jsPsych.data.addDataToLastTrial({
                 post_trial_gap: post_trial_gap_last,
-                worker_code: finish_code
             });
         }
     });
@@ -287,7 +290,6 @@ q_blocks.push({ // A driver was visible in the car
     on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
             post_trial_gap: post_trial_gap_last,
-            worker_code: finish_code
         });
     }
 });
@@ -299,7 +301,6 @@ q_blocks.push({ // The windows of the car were blinded
     on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
             post_trial_gap: post_trial_gap_last,
-            worker_code: finish_code
         });
     }
 });
@@ -311,7 +312,6 @@ q_blocks.push({ // The windows of the car were blinded
 //     on_finish: function(data) {
 //         jsPsych.data.addDataToLastTrial({
 //             post_trial_gap: post_trial_gap_last,
-//             worker_code: finish_code
 //         });
 //     }
 // });
@@ -323,7 +323,6 @@ q_blocks.push({ // There was a message ‘GO’ on the roof
     on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
             post_trial_gap: post_trial_gap_last,
-            worker_code: finish_code
         });
     }
 });
@@ -335,7 +334,6 @@ q_blocks.push({ // There were signs on the side of the car
     on_finish: function(data) {
         jsPsych.data.addDataToLastTrial({
             post_trial_gap: post_trial_gap_last,
-            worker_code: finish_code
         });
     }
 });
@@ -347,7 +345,6 @@ q_blocks.push({ // There were signs on the side of the car
 //     on_finish: function(data) {
 //         jsPsych.data.addDataToLastTrial({
 //             post_trial_gap: post_trial_gap_last,
-//             worker_code: finish_code
 //         });
 //     }
 // });
@@ -381,7 +378,6 @@ for (var i = 0; i < zoom_ids.length; i++) {
         html: '<div class="row"><div class="col-md-6"><img src="' + image_prefix + 'zoom/zoom_' + zoom_ids[i] + '.jpg" ' + ' style="width: 100%"/></div><div class="col-md-6"><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q0"><strong>1. Based on the <u>car’s signs, windows, and (absence of a) driver</u>, how confusing is the situation for you as a cyclist?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q0-0"><input type="radio" name="q0" id="q0-0" value="1"> Not confusing at all </label></div><div class="radio"><label for="q0-1"><input type="radio" name="q0" id="q0-1" value="2"> A little confusing </label></div><div class="radio"><label for="q0-2"><input type="radio" name="q0" id="q0-2" value="3" checked="checked"> Moderately confusing </label></div><div class="radio"><label for="q0-3"><input type="radio" name="q0" id="q0-3" value="4"> Very confusing </label></div><div class="radio"><label for="q0-4"><input type="radio" name="q0" id="q0-4" value="5"> Extremely confusing </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q1"><strong>2. Explain your answer to Question 1</strong></label></div><div class="col-md-6" style="text-align: left"><input id="q1" name="q1" type="text" placeholder="Required" class="form-control input-md" required=""> <span class="form-text text-muted" style="font-size: 13px;">Describe why you selected the answer in Question 1</span> </div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q2"><strong>3. Based on the <u>car’s signs, windows, and (absence of a) driver</u>, how do you think the car is driving?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q2-0"><input type="radio" name="q2" id="q2-0" value="1"> The car is driving manually </label></div><div class="radio"><label for="q2-1"><input type="radio" name="q2" id="q2-1" value="2" checked="checked"> It is unclear whether the car is driving manually or automatically </label></div><div class="radio"><label for="q2-2"><input type="radio" name="q2" id="q2-2" value="3"> The car is driving automatically </label></div></div></div><div class="row" style="padding-bottom: 20px"><div class="col-md-6" style="text-align: left; max-width: 100%"><label class="col-md-12 control-label" for="q3"><strong>4. Overall, how dangerous is the situation for you as a cyclist?</strong></label></div><div class="col-md-6" style="text-align: left"><div class="radio"><label for="q3-0"><input type="radio" name="q3" id="q3-0" value="1"> Not dangerous at all </label></div><div class="radio"><label for="q3-1"><input type="radio" name="q3" id="q3-1" value="2"> A little dangerous </label></div><div class="radio"><label for="q3-2"><input type="radio" name="q3" id="q3-2" value="3" checked="checked"> Moderately dangerous </label></div><div class="radio"><label for="q3-3"><input type="radio" name="q3" id="q3-3" value="4"> Very dangerous </label></div><div class="radio"><label for="q3-4"><input type="radio" name="q3" id="q3-4" value="5"> Extremely dangerous </label></div></div></div></div></div>',
         on_finish: function(data) {
             jsPsych.data.addDataToLastTrial({
-                worker_code: finish_code,
                 zoom_id: zoom_ids[i]
             });
         }
