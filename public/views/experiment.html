@@ -47,6 +47,7 @@ var questions_end_blocks = [];
 var questions_inject = ['2+2=5.', 'Bananas are yellow.', 'Oranges are orange.', '4+3=9.', 'Current year is 2013.', 'Earth is round.', 'France is in Europe.', '3+2=5.', 'Tomatoes are red.', 'Water is wet.']; // test questions to inject
 var questions_inject_locations = [];
 var questions_inject_blocks = [];
+var likert_blocks = [];
 
 // browser info
 // https://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
@@ -272,105 +273,6 @@ for (var i = 0; i < n_images * n_images_repeat; i++) {
     });
 }
 
-// blocks with questions
-q_blocks.push({ // A driver was visible in the car
-    type: 'html-keyboard-response',
-    stimulus: '<p><strong>A driver was visible in the car.</strong></p><p>Press \'T\' for True or \'F\' for False.</p>',
-    choices: ['T', 'F'],
-    post_trial_gap: post_trial_gap,
-    on_finish: function(data) {
-        jsPsych.data.get().addToLast({
-            post_trial_gap: post_trial_gap_last,
-        });
-    }
-});
-q_blocks.push({ // The windows of the car were blinded
-    type: 'html-keyboard-response',
-    stimulus: '<p><strong>The windows of the car were blinded.</strong></p><p>Press \'T\' for True or \'F\' for False.</p>',
-    choices: ['T', 'F'],
-    post_trial_gap: post_trial_gap,
-    on_finish: function(data) {
-        jsPsych.data.get().addToLast({
-            post_trial_gap: post_trial_gap_last,
-        });
-    }
-});
-// q_blocks.push({ // There was a message ‘GO’ on the roof
-//     type: 'html-keyboard-response',
-//     stimulus: '<p>The car was driving automatically. Press \'T\' for True or \'F\' for False.</p>',
-//     choices: ['T', 'F'],
-//     post_trial_gap: post_trial_gap,
-//     on_finish: function(data) {
-//         jsPsych.data.get().addToLast({
-//             post_trial_gap: post_trial_gap_last,
-//         });
-//     }
-// });
-q_blocks.push({ // There was a message ‘GO’ on the roof
-    type: 'html-keyboard-response',
-    stimulus: '<p><strong>There was a message \'GO\' on the roof.</strong></p><p>Press \'T\' for True or \'F\' for False.</p>',
-    choices: ['T', 'F'],
-    post_trial_gap: post_trial_gap,
-    on_finish: function(data) {
-        jsPsych.data.get().addToLast({
-            post_trial_gap: post_trial_gap_last,
-        });
-    }
-});
-q_blocks.push({ // There were signs on the side of the car
-    type: 'html-keyboard-response',
-    stimulus: '<p><strong>There was a sticker and sensor on the car.</strong></p><p>Press \'T\' for True or \'F\' for False.</p>',
-    choices: ['T', 'F'],
-    post_trial_gap: post_trial_gap,
-    on_finish: function(data) {
-        jsPsych.data.get().addToLast({
-            post_trial_gap: post_trial_gap_last,
-        });
-    }
-});
-// q_blocks.push({ // The car was driving automatically
-//     type: 'html-keyboard-response',
-//     stimulus: '<p>The situation was dangerous for me as a cyclist. Press \'1\' for Not dangerous at all, \'2\' for A little dangerous, \'3\' for Moderately dangerous, \'4\' for Very dangerous, and \'5\' for Extremely dangerous.</p>',
-//     choices: ['1', '2', '3', '4', '5'],
-//     post_trial_gap: post_trial_gap,
-//     on_finish: function(data) {
-//         jsPsych.data.get().addToLast({
-//             post_trial_gap: post_trial_gap_last,
-//         });
-//     }
-// });
-
-var scale_tf = [
-  "True", 
-  "False", 
-];
-
-var likert_page = {
-  type: 'survey-likert',
-  questions: [
-    {prompt: "I like vegetables.", name: 'Vegetables', labels: scale_tf},
-    {prompt: "I like fruit.", name: 'Fruit', labels: scale_tf},
-    {prompt: "I like meat.", name: 'Meat', labels: scale_tf},
-    {prompt: "I like dairy.", name: 'Dairy', labels: scale_tf}
-  ],
-  randomize_question_order: true
-};
-
-// slider block
-var slider_block = {
-    type: 'html-slider-response',
-    stimulus: '<p>Rank the following statement: <strong>The situation was dangerous for me as a cyclist</strong>. You need to move ths slider below to proceed.</p>',
-    labels: ['Not dangerous at all', 'A little dangerous', 'Moderately dangerous', 'Very dangerous', 'Extremely dangerous'],
-    require_movement: true,
-    slider_width: 1000,
-    post_trial_gap: post_trial_gap,
-    on_finish: function(data) {
-        jsPsych.data.get().addToLast({
-            post_trial_gap: post_trial_gap_last,
-        });
-    }
-};
-
 // populate zoom ID
 for (var i = 1; i <= n_zoom; i++) {
     zoom_ids.push(i);
@@ -388,6 +290,40 @@ for (var i = 0; i < zoom_ids.length; i++) {
                 zoom_id: zoom_ids[i]
             });
         }
+    });
+}
+
+// scale with Truth/False
+var scale_tf = [
+  "True", 
+  "False", 
+];
+
+// add likert questions
+for (var i = 1; i <= image_ids.length; i++) {
+    // array with questions
+    var questions = [];
+    var counter_injections = 0;
+    if (questions_inject_locations.includes(i)) {  // add injected question
+        questions = [{prompt: "A driver was visible in the car.", name: 'driver', labels: scale_tf},
+                     {prompt: "The windows of the car were blinded.", name: 'windos', labels: scale_tf},
+                     {prompt: "There was a message \'GO\' on the roof.", name: 'go', labels: scale_tf},
+                     {prompt: "There was a sticker and sensor on the car.", name: 'sticker', labels: scale_tf},
+                     {prompt: questions_inject[counter_injections], name: 'injection', labels: scale_tf}
+                     ]
+        counter_injections++;  // increment number of injections used
+    } else { // don't add injected question
+        questions = [{prompt: "A driver was visible in the car.", name: 'driver', labels: scale_tf},
+                     {prompt: "The windows of the car were blinded.", name: 'windos', labels: scale_tf},
+                     {prompt: "There was a message \'GO\' on the roof.", name: 'go', labels: scale_tf},
+                     {prompt: "There was a sticker and sensor on the car.", name: 'sticker', labels: scale_tf}
+                     ]
+    }
+    // build page with questions
+    likert_blocks.push({
+        type: 'survey-likert',
+        questions: questions,
+        randomize_question_order: true
     });
 }
 
@@ -482,10 +418,7 @@ var timeline = [];
 var video_blocks_count = 0; // counter for video examples shown
 var between_blocks_count = 0; // counter of shown between blocks
 var questions_inject_count = 0; // counter of shown injections
-// timeline.push(questions_inject_blocks[questions_inject_count]);
-// timeline.push(questions_end_blocks[0]);
-// timeline.push(slider_block);
-timeline.push(likert_page);
+timeline.push(likert_blocks[0]);
 timeline.push(instructions_block);
 timeline.push(video_blocks[video_blocks_count]);
 timeline.push(continue_first_block);
@@ -505,20 +438,7 @@ for (var i = 0; i <= n_images_per_participant * n_images_repeat; i++) {
     }
     timeline.push(image_stimuli[i]); // page with the stimulus
     // questions
-    q_blocks = shuffle(q_blocks); // shuffle questions
-    // check if need to add injection
-    var index_injection = 0;
-    if (questions_inject_locations.includes(i)) { // image id is saved for injection
-        index_injection = getRandomInt(0, q_blocks.length - 1); // decide in which position with questions to show
-    }
-    // pages with questions
-    for (var j = 0; j < q_blocks.length; j++) {
-        if (questions_inject_locations.includes(i) && j == index_injection) { // image id is saved for injection
-            timeline.push(questions_inject_blocks[questions_inject_count]); // page with questions
-            questions_inject_count++;
-        }
-        timeline.push(q_blocks[j]);
-    }
+    timeline.push(likert_blocks[i]);
     timeline.push(save_data_block); // save data
     // don't add the between block after the last trial
     if ((i + 1) % n_images_break == 0 && i != 0 && i != n_images_per_participant * n_images_repeat - 1 && i < n_images_no_break_after - 1) {
