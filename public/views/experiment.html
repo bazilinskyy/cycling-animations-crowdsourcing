@@ -189,7 +189,7 @@ function saveData() {
     // check if data needs to be saved
     if (save_data) {
         // add worker ID 
-        jsPsych.data.get().addToAll({
+        jsPsych.data.get().addToLast({
             worker_code: finish_code
         });
 
