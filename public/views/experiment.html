@@ -301,7 +301,7 @@ for (var i = 1; i <= image_ids.length; i++) {
     var questions = [];
     if (questions_inject_locations.includes(i)) {  // add injected question
         questions = [{prompt: "A driver was visible in the car.", name: 'driver', labels: scale_tf, required: true},
-                     {prompt: "The windows of the car were blinded.", name: 'windos', labels: scale_tf, required: true},
+                     {prompt: "The windows of the car were blinded.", name: 'windows', labels: scale_tf, required: true},
                      {prompt: "There was a message \'GO\' on the car.", name: 'go', labels: scale_tf, required: true},
                      {prompt: "There was a sticker and sensor on the car.", name: 'sticker', labels: scale_tf, required: true},
                      {prompt: questions_inject[counter_injections], name: 'injection', labels: scale_tf, required: true}
@@ -309,7 +309,7 @@ for (var i = 1; i <= image_ids.length; i++) {
         counter_injections++;  // increment number of injections used
     } else { // don't add injected question
         questions = [{prompt: "A driver was visible in the car.", name: 'driver', labels: scale_tf, required: true},
-                     {prompt: "The windows of the car were blinded.", name: 'windos', labels: scale_tf, required: true},
+                     {prompt: "The windows of the car were blinded.", name: 'windows', labels: scale_tf, required: true},
                      {prompt: "There was a message \'GO\' on the car.", name: 'go', labels: scale_tf, required: true},
                      {prompt: "There was a sticker and sensor on the car.", name: 'sticker', labels: scale_tf, required: true}
                     ]
@@ -329,7 +329,13 @@ for (var i = 1; i < n_images * n_images_repeat / n_images_break; i++) {
     between_blocks.push({
         type: 'html-keyboard-response',
         stimulus: '<div class="alert alert-primary" role="alert" style="text-align: left;"><h4 class="alert-heading">Break</h4><p>You have now completed ' + images_done + ' images out of ' + n_images_per_participant * n_images_repeat + '.</p><hr><p class="mb-0">When ready press \'N\' to proceed to the next batch.</p></div>',
-        choices: ['N']
+        choices: ['N'],
+        post_trial_gap: post_trial_gap,
+        on_finish: function(data) {
+            jsPsych.data.get().addToLast({
+                post_trial_gap: post_trial_gap_last,
+            });
+        }
     });
 }
 
@@ -340,12 +346,7 @@ for (var i = 0; i < video_files_ids.length; i++) {
         type: 'video-keyboard-response',
         sources: [video_files[video_files_ids[i]]],
         autoplay: true,
-        choices: jsPsych.NO_KEYS,
-        on_finish: function(data) {
-            if (debug) {
-                console.log('video finished');
-            }
-        }
+        choices: jsPsych.NO_KEYS
     });
 }
 
@@ -367,10 +368,11 @@ var continue_first_block = {
     type: 'html-keyboard-response',
     stimulus: '<p>Press \'C\' to continue to the first image.</p>',
     choices: ['C'],
-    on_load: function(data) {
-        if (debug) {
-            console.log('continue started');
-        }
+    post_trial_gap: post_trial_gap,
+    on_finish: function(data) {
+        jsPsych.data.get().addToLast({
+            post_trial_gap: post_trial_gap_last,
+        });
     }
 };
 
