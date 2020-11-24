@@ -292,6 +292,7 @@ var scale_tf = [
 ];
 
 // add likert questions
+questions_inject = shuffle(questions_inject);  // shuffle injecction questions
 questions_inject_locations = shuffle(image_ids); // assign image ids and shuffle
 questions_inject_locations = questions_inject_locations.slice(0, questions_inject.length); // trim to the number of injections
 var counter_injections = 0;
